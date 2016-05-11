@@ -1,0 +1,138 @@
+{
+    "mandatory": [
+        "FROM"
+    ],
+    "recommended": [
+        "MAINTAINER"
+    ],
+    "unique": [
+        "CMD",
+        "ENTRYPOINT",
+        "FROM"
+    ],
+    "all": [
+        "ADD",
+        "CMD",
+        "COPY",
+        "ENTRYPOINT",
+        "ENV",
+        "EXPOSE",
+        "FROM",
+        "LABEL",
+        "MAINTAINER",
+        "ONBUILD",
+        "RUN",
+        "USER",
+        "VOLUME",
+        "WORKDIR"
+    ],
+    "pointless_commands": [
+        "free",
+        "ifconfig",
+        "kill",
+        "mount",
+        "nano",
+        "ps",
+        "vim",
+        "shutdown",
+        "ssh",
+        "top"
+    ],
+    "rules": [
+        {
+            "id": "1000",
+            "message": "'{token}' is mandatory",
+            "category": "NotFound"
+        },
+        {
+            "id": "1001",
+            "message": "'{token}' must be present only once",
+            "category": "TooMuch"
+        },
+        {
+            "id": "2000",
+            "message": "A tag should be specified for the '{image}' image",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2001",
+            "message": "Using the 'latest' tag isn't wise, as it won't always be a reference to the same version",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2002",
+            "message": "Use 'WORKDIR' to change directory",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2003",
+            "message": "Some shell commands like '{command}' are pointless in containers",
+            "category": "Pointless"
+        },
+        {
+            "id": "2004",
+            "message": "'WORKDIR' path should be absolute",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2005",
+            "message": "'EXPOSE' port ({port}) must be in 1-65535 range",
+            "category": "BadValue"
+        },
+        {
+            "id": "2006",
+            "message": "Prefer 'COPY' over 'ADD' for adding files and directories to a container. 'ADD' sounds to much magic",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2007",
+            "message": "Be careful changing to root user",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2008",
+            "message": "Avoid running 'apt-get upgrade' in container. Move to a newer image instead",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2009",
+            "message": "Missing '--no-install-recommends' in your '{command}' command",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2010",
+            "message": "Missing '-y' in your '{command}' command",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2011",
+            "message": "Avoid running 'apt-get dist-upgrade' in container. Move to a newer image instead",
+            "category": "BadPractice"
+        },
+        {
+            "id": "2012",
+            "message": "There is two consecutive 'RUN'. Consider chaining them with '\\' and '&&'",
+            "category": "BadPractice"
+        },
+        {
+            "id": "3000",
+            "message": "Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*'",
+            "category": "BestPractice"
+        },
+        {
+            "id": "3001",
+            "message": "Using '{token}' is recommended",
+            "category": "Maintainability"
+        },
+        {
+            "id": "3002",
+            "message": "Consider sorting APT packages for better reading",
+            "category": "Maintainability"
+        },
+        {
+            "id": "3003",
+            "message": "A version should be specified for the package '{package}' in order to improve immutability",
+            "category": "Immutability"
+        }
+    ]
+}
