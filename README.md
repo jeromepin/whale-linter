@@ -1,8 +1,8 @@
-# dlint
+# whale-linter
 
-**Dlint** is a cross-platform *Dockerfile* linter.
+**whale-linter** is a cross-platform *Dockerfile* linter.
 
-![alt text](dlint.png)
+![alt text](whale-linter.png)
 
 ## Requirements
 
@@ -14,20 +14,20 @@
 ### PyPI : The easy way
 
 ```bash
-pip install dlint
+pip install whalelinter
 ```
 
 and to upgrade :
 
 ```bash
-pip install --upgrade dlint
+pip install --upgrade whalelinter
 ```
 
 
 ## Usage
 
 ```bash
-usage: dlint [-h] [-i RULE] [-v] DOCKERFILE
+usage: whale-linter [-h] [-i RULE] [-v] DOCKERFILE
 
 A simple non professional Dockerfile linter
 

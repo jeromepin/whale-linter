@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import shlex
-from dlint.app import App
+from whalelinter.app import App
 
 
 class Parser(object):

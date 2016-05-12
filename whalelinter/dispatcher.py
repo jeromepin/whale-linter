@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from dlint.app import App
+from whalelinter.app import App
 
 FUNCTION_CHAR = '_'
 

@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='dlint',
+    name='whalelinter',
     version='0.0.1',
     packages=find_packages(),
-    scripts=['bin/dlint'],
+    scripts=['bin/whale-linter'],
     author="Jerome Pin",
     author_email="jeromepin38@gmail.com",
     description="A simple nonprofessional Dockerfile linter",
     long_description=open('README.md').read(),
     include_package_data=True,
-    url='https://github.com/jeromepin/dlint',
+    url='https://github.com/jeromepin/whale-linter',
     classifiers=[
         "Programming Language :: Python",
         "Development Status :: 5 - Production/Stable",

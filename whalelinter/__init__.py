@@ -5,10 +5,10 @@ import os.path
 
 from pkg_resources import get_distribution, DistributionNotFound
 
-from dlint.app       import App
-from dlint.parser    import Parser
-from dlint.checker   import Checker
-from dlint.collecter import Collecter
+from whalelinter.app       import App
+from whalelinter.parser    import Parser
+from whalelinter.checker   import Checker
+from whalelinter.collecter import Collecter
 
 __all__ = ['run']
 
@@ -24,7 +24,7 @@ def run():
     else:
         __version__ = _dist.version
 
-    parser = argparse.ArgumentParser(description='A simple nonprofessional Dockerfile linter')
+    parser = argparse.ArgumentParser(description='A simple non professional Dockerfile linter')
     parser.add_argument('-i', '--ignore', default=None, help='Rule to ignore', action='append')
     parser.add_argument('-v', '--version', help='Print version', action='version', version='%(prog)s {}'.format(__version__))
     parser.add_argument('dockerfile', help="The Dockerfile to lint")

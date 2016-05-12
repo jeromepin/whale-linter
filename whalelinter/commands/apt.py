@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from dlint.app        import App
-from dlint.dispatcher import Dispatcher
+from whalelinter.app        import App
+from whalelinter.dispatcher import Dispatcher
 
 
 class Apt(object):

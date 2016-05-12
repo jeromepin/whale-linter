@@ -1,2 +1,2 @@
 include README.md
-include dlint/config.json
+include whalelinter/config.json
