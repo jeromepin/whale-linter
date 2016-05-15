@@ -1,23 +1,44 @@
+#!/usr/bin/env python3
+
 from setuptools import setup, find_packages
+from os         import path
+import sys
+
+if sys.version_info < (3, 2):
+    print('Whalelinter requires at least Python 3.2 to run.')
+    sys.exit(1)
+
+here = path.abspath(path.dirname(__file__))
+
 
 setup(
     name='whalelinter',
-    version='0.0.1',
+    version='0.0.2',
     packages=find_packages(),
     scripts=['bin/whale-linter'],
     author="Jerome Pin",
-    author_email="jeromepin38@gmail.com",
-    description="A simple nonprofessional Dockerfile linter",
-    long_description=open('README.md').read(),
+    author_email="jerome@jeromepin.fr",
+    maintainer="Jerome Pin",
+    maintainer_email="jerome@jeromepin.fr",
+    description="A simple non professional Dockerfile linter",
+    long_description=long_description,
     include_package_data=True,
+    license='MIT',
     url='https://github.com/jeromepin/whale-linter',
+    download_url = 'https://github.com/jeromepin/whale-linter/tarball/0.0.2',
+    keywords=['docker', 'linter'],
+    platforms='Linux',
     classifiers=[
         "Programming Language :: Python",
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3 :: Only",
-        "Topic :: Software Development :: Bug Tracking",
+        "Programming Language :: Python :: 3",
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        "Intended Audience :: System Administrators"
     ]
 )
