@@ -2,7 +2,6 @@
 import sys
 import argparse
 import os.path
-
 from pkg_resources import get_distribution, DistributionNotFound
 
 from whalelinter.app       import App
@@ -13,16 +12,8 @@ from whalelinter.collecter import Collecter
 __all__ = ['run']
 
 def run():
-    try:
-        _dist = get_distribution('app')
-        dist_loc = os.path.normcase(_dist.location)
-        here = os.path.normcase(__file__)
-        if not here.startswith(os.path.join(dist_loc, 'app')):
-            raise DistributionNotFound
-    except DistributionNotFound:
-        __version__ = 'Please install this project with setup.py'
-    else:
-        __version__ = _dist.version
+    dist = get_distribution('whalelinter')
+    __version__ = dist.version
 
     parser = argparse.ArgumentParser(description='A simple non professional Dockerfile linter')
     parser.add_argument('-i', '--ignore', default=None, help='Rule to ignore', action='append')
