@@ -37,10 +37,10 @@ setup(
     keywords=['docker', 'linter'],
     platforms='Linux',
     classifiers=[
-        "Programming Language :: Python",
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
+        "Operating System :: MacOS :: MacOS X",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3",
         'Programming Language :: Python :: 3.2',
