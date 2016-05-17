@@ -1,8 +1,8 @@
 # whale-linter
 
-[![PyPI](https://img.shields.io/pypi/v/whalelinter.svg?maxAge=2592000?style=flat-square)]()
-[![PyPI](https://img.shields.io/pypi/dm/whalelinter.svg?maxAge=2592000?style=flat-square)]()
-[![PyPI](https://img.shields.io/pypi/l/whalelinter.svg?maxAge=2592000?style=flat-square)]()
+[![PyPI](https://img.shields.io/pypi/v/whalelinter.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/whalelinter)
+[![PyPI](https://img.shields.io/pypi/dm/whalelinter.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/whalelinter)
+[![PyPI](https://img.shields.io/pypi/l/whalelinter.svg?maxAge=2592000?style=flat-square)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
 
 
 **whale-linter** is a cross-platform *Dockerfile* linter.
