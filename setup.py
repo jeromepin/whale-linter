@@ -10,10 +10,11 @@ if sys.version_info < (3, 2):
 
 here = path.abspath(path.dirname(__file__))
 
+version = '0.0.2'
 
 setup(
     name='whalelinter',
-    version='0.0.2',
+    version=version,
     packages=find_packages(),
     scripts=['bin/whale-linter'],
     author="Jerome Pin",
@@ -25,7 +26,7 @@ setup(
     include_package_data=True,
     license='MIT',
     url='https://github.com/jeromepin/whale-linter',
-    download_url = 'https://github.com/jeromepin/whale-linter/tarball/0.0.2',
+    download_url='https://github.com/jeromepin/whale-linter/tarball/' + version,
     keywords=['docker', 'linter'],
     platforms='Linux',
     classifiers=[
