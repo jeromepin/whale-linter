@@ -47,6 +47,45 @@ optional arguments:
 ```
 
 
+## Rules
+
+Here is the list of all rules checked by **whale-linter**.
+
+Do not hesitate to [create a new issue](https://github.com/jeromepin/whale-linter/issues/new) if you have an idea for a new/incomplete rule.
+
+
+Rules are ordered as follows :
+
+* *WL1xxx* : Critical errors
+
+* *WL2xxx* : Bad practices
+
+* *WL3xxx* : Enhancements
+
+
+| Rule | Corresponding message (as template given in config.json) |
+| ------ | ----------- |
+| [WL1000](https://github.com/jeromepin/whale-linter/wiki/WL1000) | '{token}' is mandatory |
+| [WL1001](https://github.com/jeromepin/whale-linter/wiki/WL1001) | '{token}' must be present only once |
+| [WL2000](https://github.com/jeromepin/whale-linter/wiki/WL2000) | A tag should be specified for the '{image}' image |
+| [WL2001](https://github.com/jeromepin/whale-linter/wiki/WL2001) | Using the 'latest' tag isn't wise, as it won't always be a reference to the same version |
+| [WL2002](https://github.com/jeromepin/whale-linter/wiki/WL2002) | Use 'WORKDIR' to change directory |
+| [WL2003](https://github.com/jeromepin/whale-linter/wiki/WL2003) | Some shell commands like '{command}' are pointless in containers |
+| [WL2004](https://github.com/jeromepin/whale-linter/wiki/WL2004) | 'WORKDIR' path should be absolute |
+| [WL2005](https://github.com/jeromepin/whale-linter/wiki/WL2005) | 'EXPOSE' port ({port}) must be in 1-65535 range |
+| [WL2006](https://github.com/jeromepin/whale-linter/wiki/WL2006) | Prefer 'COPY' over 'ADD' for adding files and directories to a container. 'ADD' sounds to much magic |
+| [WL2007](https://github.com/jeromepin/whale-linter/wiki/WL2007) | Be careful changing to root user |
+| [WL2008](https://github.com/jeromepin/whale-linter/wiki/WL2008) | Avoid running 'apt-get upgrade' in container. Move to a newer image instead |
+| [WL2009](https://github.com/jeromepin/whale-linter/wiki/WL2009) | Missing '--no-install-recommends' in your '{command}' command |
+| [WL2010](https://github.com/jeromepin/whale-linter/wiki/WL2010) | Missing '-y' in your '{command}' command |
+| [WL2011](https://github.com/jeromepin/whale-linter/wiki/WL2011) | Avoid running 'apt-get dist-upgrade' in container. Move to a newer image instead |
+| [WL2012](https://github.com/jeromepin/whale-linter/wiki/WL2012) | There is two consecutive 'RUN'. Consider chaining them with '\' and '&&' |
+| [WL3000](https://github.com/jeromepin/whale-linter/wiki/WL3000) | Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*' |
+| [WL3001](https://github.com/jeromepin/whale-linter/wiki/WL3001) | Using '{token}' is recommended |
+| [WL3002](https://github.com/jeromepin/whale-linter/wiki/WL3002) | Consider sorting APT packages for better reading |
+| [WL3003](https://github.com/jeromepin/whale-linter/wiki/WL3003) | A version should be specified for the package '{package}' in order to improve immutability |
+
+
 ## Author
 
 Jerome Pin ([@jerome_pin](https://twitter.com/jerome_pin)) <<jerome@jeromepin.fr>>
