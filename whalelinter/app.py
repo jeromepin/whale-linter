@@ -12,5 +12,9 @@ class App:
 
         return data
 
-    _config     = load_configuration.__func__()
-    _collecter  = None
+    _config             = load_configuration.__func__()
+    _collecter          = None
+    _mandatory_tokens   = _config['mandatory']
+    _recommended_tokens = _config['recommended']
+    _pointless_commands = _config['pointless_commands']
+    _unique_tokens      = {x: 0 for x in _config['unique']}
