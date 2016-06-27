@@ -96,6 +96,8 @@
         },
         {
             "id": "2009",
+            "message": "Protocol must be either tcp or udp",
+            "category": "BadValue"
         },
         {
             "id": "2010",
