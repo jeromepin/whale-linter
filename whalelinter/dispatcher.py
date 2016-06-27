@@ -74,13 +74,7 @@ class Dispatcher:
             if command in self._callbacks[token]:
 
                 if self._callbacks[token][command][FUNCTION_CHAR] is not None:
-                    self._callbacks[token][command][FUNCTION_CHAR](self.caller, args)
-
-                subcommand = args[0]
-                args = args[1:]
-
-                if subcommand in self._callbacks[token][command]:
-                    self._callbacks[token][command][subcommand][FUNCTION_CHAR](self.caller, args)
+                    self._callbacks[token][command][FUNCTION_CHAR](token, command, args, lineno)
 
         if self.consecutive_run['count'] > 1:
             App._collecter.throw(2012, self.consecutive_run['line'])
@@ -91,7 +85,7 @@ class Dispatcher:
             self.react(rest)
 
     @classmethod
-    def register(cls, func=None, token=None, command=None, subcommand=None):
+    def register(cls, func=None, token=None, command=None):
         """
         Decorator to register a new callback.
 
@@ -118,25 +112,13 @@ class Dispatcher:
                     cls._callbacks[token][command] = {
                         FUNCTION_CHAR: None,
                     }
-
-                if subcommand:
-                    if subcommand not in cls._callbacks[token][command]:
-                        cls._callbacks[token][command][subcommand] = {
-                            FUNCTION_CHAR: None,
-                        }
-
-        if token and command and subcommand:
-            def decorate(func):
-                cls._callbacks[token][command][subcommand][FUNCTION_CHAR] = func
-                return func
-
-        if token and command and not subcommand:
+        if token and command:
             def decorate(func):
                 cls._callbacks[token][command][FUNCTION_CHAR] = func
 
                 return func
 
-        if token and not command and not subcommand:
+        if token and not command:
 
             def decorate(func):
                 cls._callbacks[token][FUNCTION_CHAR] = func
