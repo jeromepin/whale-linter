@@ -11,6 +11,7 @@ from whalelinter.collecter import Collecter
 
 __all__ = ['run']
 
+
 def run():
     dist = get_distribution('whalelinter')
     __version__ = dist.version
@@ -28,8 +29,8 @@ def run():
 
     App._collecter = Collecter(App._config['rules'], args.ignore)
 
-    checkFor = Checker(Parser(args.dockerfile).shlex_to_dictionnary())
-    checkFor.all()
+    checker = Checker(Parser(args.dockerfile).shlex_to_dictionnary())
+    checker.check()
 
     App._collecter.display()
 

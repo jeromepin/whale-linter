@@ -7,27 +7,27 @@ FUNCTION_CHAR = '_'
 class Dispatcher:
     _callbacks = {}
 
-    def __init__(self, caller=None):
-        self.caller          = caller
+    def __init__(self):
         self.consecutive_run = {
             'count': 0,
             'line' : 0
         }
 
-    def separate_multiline_commands(self, command):
-        rest              = None
-        chain_idx         = 10000
-        newline_chain_idx = 10000
+    def process_chained_commands(self, command):
+        logical_AND_index         = 10000
+        logical_AND_newline_index = 10000
 
         if '&&' in command:
-            chain_idx = command.index('&&')
+            logical_AND_index = command.index('&&')
 
         if '\n&&' in command:
-            newline_chain_idx = command.index('\n&&')
+            logical_AND_newline_index = command.index('\n&&')
 
-        idx     = chain_idx if chain_idx < newline_chain_idx else newline_chain_idx
-        rest    = command[idx + 1:]
-        command = command[:idx]
+        if logical_AND_newline_index < logical_AND_index:
+            logical_AND_index = logical_AND_newline_index
+
+        rest    = command[logical_AND_index + 1:]
+        command = command[:logical_AND_index]
 
         return (command, rest)
 
@@ -57,10 +57,11 @@ class Dispatcher:
 
         if '&&' in args or '\n&&' in args:
             is_multiline_command = True
-            args, rest = self.separate_multiline_commands(args)
+            args, rest = self.process_chained_commands(args)
 
         if token in self._callbacks:
-            self._callbacks[token][FUNCTION_CHAR](self.caller, args)
+            if (self._callbacks[token][FUNCTION_CHAR] is not None):
+                self._callbacks[token][FUNCTION_CHAR](args, lineno)
 
             if token == 'run':
                 self.consecutive_run['count'] += 1
@@ -82,7 +83,7 @@ class Dispatcher:
         if is_multiline_command and rest:
             rest.insert(0, 'RUN')
             self.consecutive_run['count'] = 0
-            self.react(rest)
+            self.react(rest, lineno)
 
     @classmethod
     def register(cls, func=None, token=None, command=None):
@@ -98,20 +99,19 @@ class Dispatcher:
         @Dispatcher.register(token='my_command', command='foo', subcommand='bar')
         def my_command_foo_bar(self, args):
         """
+
+        if (not cls._callbacks):
+            cls._callbacks = {x.lower(): {FUNCTION_CHAR: None, } for x in App._config['all']}
+
         if hasattr(func, '__call__'):
             token = func.__name__
 
-        if token:
-            if token not in cls._callbacks:
-                cls._callbacks[token] = {
+        if token and command:
+            if command not in cls._callbacks[token]:
+                cls._callbacks[token][command] = {
                     FUNCTION_CHAR: None,
                 }
 
-            if command:
-                if command not in cls._callbacks[token]:
-                    cls._callbacks[token][command] = {
-                        FUNCTION_CHAR: None,
-                    }
         if token and command:
             def decorate(func):
                 cls._callbacks[token][command][FUNCTION_CHAR] = func

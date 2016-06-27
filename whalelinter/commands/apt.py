@@ -8,15 +8,6 @@ from whalelinter.commands.command import PackageManager
 @Dispatcher.register(token='run', command='apt')
 class Apt(PackageManager):
 
-    @staticmethod
-    def remove(lst, element):
-        ret = False
-        if element in lst:
-            lst.remove(element)
-            ret = True
-
-        return ret
-
     _callbacks = {}
 
     def __init__(self, token, command, args, line):
