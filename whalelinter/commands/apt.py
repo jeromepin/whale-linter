@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 from whalelinter.app        import App
 from whalelinter.dispatcher import Dispatcher
+from whalelinter.commands.command import PackageManager
 
 
-class Apt(object):
-    def __init__(self): pass
+@Dispatcher.register(token='run', command='apt-get')
+@Dispatcher.register(token='run', command='apt')
+class Apt(PackageManager):
 
     @staticmethod
     def remove(lst, element):
@@ -30,6 +32,10 @@ class Apt(object):
         App._collecter.throw(2008, checker.lineno)
 
         for idx, package in enumerate(packages):
+    _callbacks = {}
+
+    def __init__(self, token, command, args, line):
+        PackageManager.__init__(self, token, command, args, line)
             if '=' not in package:
                 App._collecter.throw(3003, checker.lineno, keys={'package': package})
             else:
