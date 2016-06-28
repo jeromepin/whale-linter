@@ -39,12 +39,12 @@ class Collecter:
             {
                 'level'      : 'critical',
                 'color'      : 'red',
-                'categories' : ['NotFound', 'TooMuch']
+                'categories' : ['NotFound', 'TooMuch', 'TooLong', 'BadValue']
             },
             {
                 'level'      : 'warning',
                 'color'      : 'yellow',
-                'categories' : ['BadPractice', 'BadValue', 'Pointless']
+                'categories' : ['BadPractice', 'Pointless']
             },
             {
                 'level'      : 'enhancement',
