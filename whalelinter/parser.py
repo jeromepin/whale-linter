@@ -6,7 +6,7 @@ from whalelinter.app import App
 class Parser(object):
     def __init__(self, filename):
         self.file   = open(filename, encoding='utf-8').read()
-        self.TOKENS = App._config['all']
+        self.TOKENS = App._config.get('all')
 
     def shlex_to_dictionnary(self):
         self.lexer                  = shlex.shlex(instream=self.file, posix=True)

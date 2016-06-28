@@ -11,9 +11,10 @@ COLORS = {
 
 class Log:
     def __init__(self, rule, line, keys):
-        self.id       = rule['id']
-        self.category = rule['category']
-        self.message  = rule['message'].format(**keys)
+        self.id       = rule.get('id')
+        self.category = rule.get('category')
+        self.message  = rule.get('message').format(**keys)
+
         if line is None:
             line = 0
 
@@ -22,10 +23,11 @@ class Log:
     def display(self, color, category_right_padding, line_number_right_padding):
         category_right_padding = category_right_padding * ' '
         line_number_right_padding = line_number_right_padding * ' '
+
         if self.line:
-            print('  l {}{}: {}{}{} : {}{}'.format(line_number_right_padding, self.line, COLORS[color.upper()], self.category, category_right_padding, COLORS['ENDC'], self.message))
+            print('  {}{}: {}{}{} : {}{}'.format(line_number_right_padding, self.line, COLORS.get(color.upper()), self.category, category_right_padding, COLORS.get('ENDC'), self.message))
         else:
-            print('        {}{}{} : {}{}'.format(COLORS[color.upper()], self.category, category_right_padding, COLORS['ENDC'], self.message))
+            print('      {}{}{} : {}{}'.format(COLORS.get(color.upper()), self.category, category_right_padding, COLORS.get('ENDC'), self.message))
 
 
 class Collecter:
@@ -52,10 +54,10 @@ class Collecter:
         ]
 
     def throw(self, id, line=None, keys={}):
-        # rule = (item for item in self.rules if item['id'] == id)
+        # rule = (item for item in self.rules if .get(id) == id)
         if str(id) not in self.ignore:
             for rule in self.rules:
-                if rule['id'] == str(id):
+                if rule.get('id') == str(id):
                     break
 
             log = Log(rule, line, keys)
@@ -64,8 +66,8 @@ class Collecter:
     def find_longest_category_name(self, level):
         length = 0
         for log_class in self.log_classes:
-            if level == log_class['level']:
-                for category in log_class['categories']:
+            if level == log_class.get('level'):
+                for category in log_class.get('categories'):
                     if len(category) > length:
                         length = len(category)
 
@@ -84,11 +86,11 @@ class Collecter:
             self.logs.sort(key=(lambda log: log.line))
 
             for log_class in self.log_classes:
-                level      = log_class['level']
-                color      = log_class['color'].upper()
-                categories = log_class['categories']
+                level      = log_class.get('level')
+                color      = log_class.get('color').upper()
+                categories = log_class.get('categories')
 
-                print('{}{} :{}'.format(COLORS[color], level.upper(), COLORS['ENDC']))
+                print('{}{} :{}'.format(COLORS.get(color), level.upper(), COLORS.get('ENDC')))
                 for log in self.logs:
                     if log.category in categories:
                         category_right_padding = self.find_longest_category_name(level) - len(log.category)
@@ -96,4 +98,4 @@ class Collecter:
                         log.display(color, category_right_padding, line_number_right_padding)
                 print()
         else:
-            print('{}{}{}\n'.format(COLORS['GREEN'], 'Everything is Good', COLORS['ENDC']))
+            print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))

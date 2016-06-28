@@ -27,7 +27,7 @@ def run():
     if args.ignore is None:
         args.ignore = []
 
-    App._collecter = Collecter(App._config['rules'], args.ignore)
+    App._collecter = Collecter(App._config.get('rules'), args.ignore)
 
     checker = Checker(Parser(args.dockerfile).shlex_to_dictionnary())
     checker.check()

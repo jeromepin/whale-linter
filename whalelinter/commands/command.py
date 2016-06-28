@@ -14,12 +14,12 @@ class Command:
             if 'name' not in kwargs:
                 name = func.__name__
             else:
-                name = kwargs['name']
+                name = kwargs.get('name')
 
             if (name not in cls._callbacks):
                 cls._callbacks[name] = []
 
-            # if 'args' in kwargs and name in kwargs['args']:
+            # if 'args' in kwargs and name in .get(args):
 
             cls._callbacks[name].append({
                 'instance': instance,
@@ -32,11 +32,11 @@ class Command:
     def react(self, name):
         if name in self._callbacks:
             for callback in self._callbacks[name]:
-                if (self == callback['instance']):
-                    if callback['kwargs']:
-                        callback['function'](callback['instance'], **callback['kwargs'])
+                if (self == callback.get('instance')):
+                    if callback.get('kwargs'):
+                        callback.get('function')(callback.get('instance'), **callback.get('kwargs'))
                     else:
-                        callback['function'](callback['instance'])
+                        callback.get('function')(callback.get('instance'))
 
 
 class PackageManager(Command):
@@ -53,9 +53,9 @@ class PackageManager(Command):
 
     def is_parameter_present(self, **kwargs):
         if 'parameter' in kwargs and 'args' in kwargs:
-            if kwargs['parameter'] not in kwargs['args']:
-                App._collecter.throw(2010, self.line_number, keys={
-                    'parameter' : kwargs['parameter'],
+            if kwargs.get('parameter') not in kwargs.get('args'):
+                App._collecter.throw(2010, self.lineno, keys={
+                    'parameter' : kwargs.get('parameter'),
                     'command'   : self.full_command
                 })
                 return False

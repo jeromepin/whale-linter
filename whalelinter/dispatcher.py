@@ -77,8 +77,8 @@ class Dispatcher:
                 if self._callbacks[token][command][FUNCTION_CHAR] is not None:
                     self._callbacks[token][command][FUNCTION_CHAR](token, command, args, lineno)
 
-        if self.consecutive_run['count'] > 1:
-            App._collecter.throw(2012, self.consecutive_run['line'])
+        if self.consecutive_run.get('count') > 1:
+            App._collecter.throw(2012, self.consecutive_run.get('line'))
 
         if is_multiline_command and rest:
             rest.insert(0, 'RUN')
@@ -101,7 +101,7 @@ class Dispatcher:
         """
 
         if (not cls._callbacks):
-            cls._callbacks = {x.lower(): {FUNCTION_CHAR: None, } for x in App._config['all']}
+            cls._callbacks = {x.lower(): {FUNCTION_CHAR: None, } for x in App._config.get('all')}
 
         if hasattr(func, '__call__'):
             token = func.__name__

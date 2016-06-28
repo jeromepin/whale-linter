@@ -14,8 +14,8 @@ class Apt(PackageManager):
         PackageManager.__init__(self, token, command, args, line)
 
         Apt.register(self)(type(self).install)
-        Apt.register(self)(type(self).is_parameter_present, name='install', parameter='-y', args=args)
-        Apt.register(self)(type(self).is_parameter_present, name='install', parameter='--no-install-recommends', args=args)
+        Apt.register(self)(type(self).is_parameter_present, name='install', parameter='-y', args=kwargs.get('args'))
+        Apt.register(self)(type(self).is_parameter_present, name='install', parameter='--no-install-recommends', args=kwargs.get('args'))
         Apt.register(self)(type(self).upgrade)
         Apt.register(self)(type(self).dist_upgrade, name='dist-upgrade')
 
