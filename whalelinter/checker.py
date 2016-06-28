@@ -32,16 +32,16 @@ class Checker(object):
         for recommended_token in App._recommended_tokens:
             App._collecter.throw(3001, keys={'token': recommended_token})
 
-    def must_be_present(self, current_token):
-        if current_token in App._mandatory_tokens:
-            App._mandatory_tokens.remove(current_token)
+    def must_be_present(self, token):
+        if token in App._mandatory_tokens:
+            App._mandatory_tokens.remove(token)
 
-    def should_be_present(self, current_token):
-        if current_token in App._recommended_tokens:
-            App._recommended_tokens.remove(current_token)
+    def should_be_present(self, token):
+        if token in App._recommended_tokens:
+            App._recommended_tokens.remove(token)
 
-    def must_be_unique(self, current_token):
-        if current_token in App._unique_tokens:
-            App._unique_tokens[current_token] += 1
-            if App._unique_tokens[current_token] > 1:
-                App._collecter.throw(1001, self.line_number, keys={'token': current_token})
+    def must_be_unique(self, token):
+        if token in App._unique_tokens:
+            App._unique_tokens[token] += 1
+            if App._unique_tokens[token] > 1:
+                App._collecter.throw(1001, self.line_number, keys={'token': token})
