@@ -116,7 +116,7 @@
         },
         {
             "id": "3000",
-            "message": "Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*'",
+            "message": "Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*' after line {line}",
             "category": "BestPractice"
         },
         {

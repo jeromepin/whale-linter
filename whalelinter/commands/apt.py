@@ -31,7 +31,7 @@ class Apt(PackageManager):
                 self.packages[idx] = package.split('=')[0]
 
         if sorted(self.packages) != self.packages:
-            App._collecter.throw(3002)
+            App._collecter.throw(3002, self.lineno)
 
     def upgrade(self):
         App._collecter.throw(2008, self.lineno)
@@ -43,7 +43,7 @@ class Apt(PackageManager):
                 packages[idx] = package.split('=')[0]
 
         if self.packages and sorted(self.packages) == self.packages:
-            App._collecter.throw(3002)
+            App._collecter.throw(3002, self.lineno)
 
     def dist_upgrade(self):
         App._collecter.throw(2011, self.lineno)

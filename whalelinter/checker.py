@@ -23,8 +23,8 @@ class Checker(object):
             self.must_be_unique(line[0])
             self.should_be_present(line[0])
 
-        if self.apt_has_been_used is True:
-            App._collecter.throw(3000)
+        if Apt._has_been_used:
+            App._collecter.throw(3000, keys={'line': Apt._has_been_used})
 
         for mandatory_token in App._mandatory_tokens:
             App._collecter.throw(1000)
