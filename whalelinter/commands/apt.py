@@ -26,7 +26,7 @@ class Apt(PackageManager):
     def install(self):
         for idx, package in enumerate(self.packages):
             if '=' not in package:
-                App._collecter.throw(3003, self.line_number, keys={'package': package})
+                App._collecter.throw(3003, self.lineno, keys={'package': package})
             else:
                 self.packages[idx] = package.split('=')[0]
 
@@ -34,11 +34,11 @@ class Apt(PackageManager):
             App._collecter.throw(3002)
 
     def upgrade(self):
-        App._collecter.throw(2008, self.line_number)
+        App._collecter.throw(2008, self.lineno)
 
         for idx, package in enumerate(self.packages):
             if '=' not in package:
-                App._collecter.throw(3003, self.line_number, keys={'package': package})
+                App._collecter.throw(3003, self.lineno, keys={'package': package})
             else:
                 packages[idx] = package.split('=')[0]
 
@@ -46,4 +46,4 @@ class Apt(PackageManager):
             App._collecter.throw(3002)
 
     def dist_upgrade(self):
-        App._collecter.throw(2011, self.line_number)
+        App._collecter.throw(2011, self.lineno)

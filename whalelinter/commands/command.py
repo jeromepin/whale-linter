@@ -81,7 +81,7 @@ class PackageManager(Command):
         self.full_command   = self.command + ' ' + ' '.join(self.rest)
 
         self.args           = [arg for arg in self.rest if (arg.startswith('-') or arg.startswith('--'))]
-        self.line_number    = line_number
+        self.lineno         = line_number
         self.methods        = []
 
         self.subcommand, self.packages = self.find_packages()
