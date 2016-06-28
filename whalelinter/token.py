@@ -19,9 +19,14 @@ class Add(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
         self.is_present()
+        self.download_from_url()
 
     def is_present(self):
         App._collecter.throw(2006, self.line)
+    def download_from_url(self):
+        if ('http://' in self.payload[0] or 'https://' in self.payload[0]):
+            App._collecter.throw(3004, self.line)
+            return True
         return False
 
 

@@ -133,6 +133,11 @@
             "id": "3003",
             "message": "A version should be specified for the package '{package}' in order to improve immutability",
             "category": "Immutability"
+        },
+        {
+            "id": "3004",
+            "message": "Prefer using 'RUN curl' or 'RUN wget' rather than 'ADD http(s)://*'",
+            "category": "BestPractice"
         }
     ]
 }
