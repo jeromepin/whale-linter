@@ -2,6 +2,10 @@
 from whalelinter.app          import App
 from whalelinter.dispatcher   import Dispatcher
 from whalelinter.token        import Maintainer
+from whalelinter.commands.apt import Apt
+
+import whalelinter.commands.common
+
 
 class Checker(object):
     def __init__(self, dictionnary):

@@ -75,7 +75,7 @@ class Dispatcher:
             if command in self._callbacks[token]:
 
                 if self._callbacks[token][command][FUNCTION_CHAR] is not None:
-                    self._callbacks[token][command][FUNCTION_CHAR](token, command, args, lineno)
+                    self._callbacks[token][command][FUNCTION_CHAR](token=token, command=command, args=args, lineno=lineno)
 
         if self.consecutive_run.get('count') > 1:
             App._collecter.throw(2012, self.consecutive_run.get('line'))

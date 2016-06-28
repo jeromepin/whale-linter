@@ -10,8 +10,8 @@ class Apt(PackageManager):
 
     _callbacks = {}
 
-    def __init__(self, token, command, args, line):
-        PackageManager.__init__(self, token, command, args, line)
+    def __init__(self, **kwargs):
+        PackageManager.__init__(self, kwargs.get('token'), kwargs.get('command'), kwargs.get('args'), kwargs.get('lineno'))
 
         Apt.register(self)(type(self).install)
         Apt.register(self)(type(self).is_parameter_present, name='install', parameter='-y', args=kwargs.get('args'))
