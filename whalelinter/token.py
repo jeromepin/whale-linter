@@ -65,7 +65,7 @@ class Maintainer(Token):
 class Run(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        self.is_pointless(self.payload[0])
+        self.is_pointless()
 
         # if '/var/lib/apt/lists/*' in payload:
         #     # Cache has already been cleaned
@@ -75,11 +75,11 @@ class Run(Token):
     def cd(self, command):
         App._collecter.throw(2002, self.line)
         return False
-
-    def is_pointless(self, command):
-        if command in self.pointless_commands:
-            App._collecter.throw(2003, self.line, keys={'command': command})
+    def is_pointless(self):
+        if self.payload[0] in self.pointless_commands:
+            App._collecter.throw(2003, self.line, keys={'command': self.payload[0]})
             return True
+        return False
 
 
 @Dispatcher.register(token='from')
