@@ -63,4 +63,4 @@ target/
 
 whalelinter/tests/
 docker-tests/
-Dockerfile
+dockerfiles/

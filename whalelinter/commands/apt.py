@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from whalelinter.app        import App
-from whalelinter.dispatcher import Dispatcher
+from whalelinter.app              import App
+from whalelinter.dispatcher       import Dispatcher
 from whalelinter.commands.command import PackageManager
 
 
@@ -8,7 +8,8 @@ from whalelinter.commands.command import PackageManager
 @Dispatcher.register(token='run', command='apt')
 class Apt(PackageManager):
 
-    _callbacks = {}
+    _callbacks      = {}
+    _has_been_used  = 0
 
     def __init__(self, **kwargs):
         PackageManager.__init__(self, kwargs.get('token'), kwargs.get('command'), kwargs.get('args'), kwargs.get('lineno'))
@@ -19,6 +20,7 @@ class Apt(PackageManager):
         Apt.register(self)(type(self).upgrade)
         Apt.register(self)(type(self).dist_upgrade, name='dist-upgrade')
 
+        Apt._has_been_used = self.lineno
         for method in self.methods:
             if self.subcommand == method:
                 self.react(method)
