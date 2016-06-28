@@ -2,7 +2,8 @@
 
 from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
-from whalelinter.commands.apt import Apt
+from whalelinter.commands.command   import Command
+# from whalelinter.commands.apt import Apt
 
 
 class Token:
@@ -23,6 +24,8 @@ class Add(Token):
 
     def is_present(self):
         App._collecter.throw(2006, self.line)
+        return True
+
     def download_from_url(self):
         if ('http://' in self.payload[0] or 'https://' in self.payload[0]):
             App._collecter.throw(3004, self.line)
@@ -67,14 +70,6 @@ class Run(Token):
         Token.__init__(self, __class__, payload, line)
         self.is_pointless()
 
-        # if '/var/lib/apt/lists/*' in payload:
-        #     # Cache has already been cleaned
-        #     self.apt_has_been_used = False
-
-    @Dispatcher.register(token='run', command='cd')
-    def cd(self, command):
-        App._collecter.throw(2002, self.line)
-        return False
     def is_pointless(self):
         if self.payload[0] in self.pointless_commands:
             App._collecter.throw(2003, self.line, keys={'command': self.payload[0]})
@@ -86,28 +81,48 @@ class Run(Token):
 class SourceImage(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
+        self.is_too_long()
+        self.has_no_tag()
+        self.has_latest_tag()
 
-        if len(payload) > 1:
-            App._collecter.report('CommandTooLong')
+    def is_too_long(self):
+        if len(self.payload) > 1:
+            App._collecter.throw(1002, self.line, keys={'command': self.payload})
+            return True
+        return False
 
-        if ':' not in payload[0]:
-            App._collecter.throw(2000, self.line, keys={'image': payload[0]})
+    def has_no_tag(self):
+        if ':' not in self.payload[0]:
+            App._collecter.throw(2000, self.line, keys={'image': self.payload[0]})
+            return True
+        return False
 
-        if ':latest' in payload[0]:
+    def has_latest_tag(self):
+        if ':latest' in self.payload[0]:
             App._collecter.throw(2001, self.line)
+            return True
+        return False
 
 
 @Dispatcher.register(token='user')
 class User(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        if payload[0] == 'root':
+
+    def is_becoming_root(self):
+        if self.payload[0] == 'root':
             App._collecter.throw(2007, self.line)
+            return True
+        return False
 
 
 @Dispatcher.register(token='workdir')
 class Workdir(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
+
+    def has_relative_path(self):
         if not payload[0].startswith('/'):
             App._collecter.throw(2004, self.line)
+            return True
+        return False

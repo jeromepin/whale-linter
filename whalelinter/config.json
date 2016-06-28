@@ -50,6 +50,11 @@
             "category": "TooMuch"
         },
         {
+            "id": "1002",
+            "message": "'{command}' has too much arguments. Should be formed like 'FROM image([:tag]|[@digest])'",
+            "category": "TooLong"
+        },
+        {
             "id": "2000",
             "message": "A tag should be specified for the '{image}' image",
             "category": "BadPractice"

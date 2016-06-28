@@ -21,6 +21,7 @@ class Apt(PackageManager):
         Apt.register(self)(type(self).dist_upgrade, name='dist-upgrade')
 
         Apt._has_been_used = self.lineno
+
         for method in self.methods:
             if self.subcommand == method:
                 self.react(method)
