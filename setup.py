@@ -22,6 +22,7 @@ setup(
     maintainer="Jerome Pin",
     maintainer_email="jerome@jeromepin.fr",
     description="A simple non professional Dockerfile linter",
+    long_description='',
     include_package_data=True,
     license='MIT',
     url='https://github.com/jeromepin/whale-linter',
