@@ -10,14 +10,7 @@ if sys.version_info < (3, 2):
 
 here = path.abspath(path.dirname(__file__))
 
-try:
-    import pypandoc
-    long_description = pypandoc.convert('README.md', 'rst')
-    print(pypandoc.convert('README.md', 'rst'))
-except(IOError, ImportError):
-    long_description = open(path.join(here, 'README.md')).read()
-
-version = '0.0.2'
+version = '0.0.3'
 
 setup(
     name='whalelinter',
@@ -29,7 +22,6 @@ setup(
     maintainer="Jerome Pin",
     maintainer_email="jerome@jeromepin.fr",
     description="A simple non professional Dockerfile linter",
-    long_description=long_description,
     include_package_data=True,
     license='MIT',
     url='https://github.com/jeromepin/whale-linter',
