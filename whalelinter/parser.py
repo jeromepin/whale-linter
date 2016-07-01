@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import shlex
+import operator
 from whalelinter.app import App
 
 
@@ -30,4 +31,4 @@ class Parser(object):
 
         commands[line] = accumulator
 
-        return commands
+        return sorted(commands.items(), key=operator.itemgetter(0))

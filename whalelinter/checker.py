@@ -8,16 +8,15 @@ import whalelinter.commands.common
 
 
 class Checker(object):
-    def __init__(self, dictionnary):
-        self.lines              = dictionnary
+    def __init__(self, lst):
+        self.lines              = lst
         self.line_number        = 0
         self.consecutive_run    = 0
-        self.apt_has_been_used  = False
 
     def check(self):
         dispatcher = Dispatcher()
 
-        for self.line_number, line in self.lines.items():
+        for self.line_number, line in self.lines:
             dispatcher.react(line, self.line_number)
             self.must_be_present(line[0])
             self.must_be_unique(line[0])
