@@ -1,9 +1,10 @@
 # whale-linter
 
-[![PyPI](https://img.shields.io/pypi/v/whalelinter.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/whalelinter)
-[![PyPI](https://img.shields.io/pypi/dm/whalelinter.svg?maxAge=2592000?style=flat-square)](https://pypi.python.org/pypi/whalelinter)
-[![PyPI](https://img.shields.io/pypi/l/whalelinter.svg?maxAge=2592000?style=flat-square)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
-
+[![PyPI](https://img.shields.io/pypi/v/whalelinter.svg)](https://pypi.python.org/pypi/whalelinter)
+[![PyPI](https://img.shields.io/pypi/dm/whalelinter.svg)](https://pypi.python.org/pypi/whalelinter)
+[![PyPI](https://img.shields.io/pypi/l/whalelinter.svg)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
+[![Docker Stars](https://img.shields.io/docker/stars/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
 
 **whale-linter** is a cross-platform *Dockerfile* linter.
 
@@ -16,6 +17,14 @@
 
 * Python 3.2, 3.4, 3.5
 * Debian wheezy, jessie, stretch
+
+### Docker : The cool way :)
+
+**Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.3`) instead of (implicit) *latest* 
+
+```
+docker run -it --rm /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
+```
 
 ### PyPI : The easy way
 
