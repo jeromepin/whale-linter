@@ -18,13 +18,15 @@
 * Python 3.2, 3.4, 3.5
 * Debian wheezy, jessie, stretch
 
+
 ### Docker : The cool way :)
 
 **Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.3`) instead of (implicit) *latest* 
 
 ```
-docker run -it --rm /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
+docker run -it --rm -v /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
 ```
+
 
 ### PyPI : The easy way
 
