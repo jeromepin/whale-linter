@@ -14,22 +14,44 @@ class Dispatcher:
         }
 
     def process_chained_commands(self, command):
-        logical_AND_index         = 10000
-        logical_AND_newline_index = 10000
+        idx, is_newline = self.find_first_command_chaining_symbol(command)
 
-        if '&&' in command:
-            logical_AND_index = command.index('&&')
+        rest    = command[idx + 1:]
+        command = command[:idx]
 
-        if '\n&&' in command:
-            logical_AND_newline_index = command.index('\n&&')
+        if rest[0] == '\n':
+            del rest[0]
 
-        if logical_AND_newline_index < logical_AND_index:
-            logical_AND_index = logical_AND_newline_index
+        if rest[0].startswith('\n'):
+            rest[0] = rest[0][1:]
 
-        rest    = command[logical_AND_index + 1:]
-        command = command[:logical_AND_index]
+        return (command, rest, is_newline)
 
-        return (command, rest)
+    def find_first_command_chaining_symbol(self, command):
+        is_newline  = False
+        logical_AND = next((x for x in command if x == '&&'), None)
+        idx         = command.index(logical_AND) if logical_AND else 0
+
+        if idx and (
+            command[idx - 1] == '\n' or \
+            command[idx + 1] == '\n' or \
+            '\n' in command[idx - 1] or \
+            '\n' in command[idx + 1]):
+
+            is_newline = True
+
+        logical_AND = next((x for x in command if x == '\n&&'), None)
+        if logical_AND :
+            if idx > 0:
+                if command.index(logical_AND) < idx:
+                    idx        = command.index(logical_AND)
+                    is_newline = True
+            else:
+                idx        = command.index(logical_AND)
+                is_newline = True
+
+        return (idx, is_newline)
+
 
     def react(self, docker_command, lineno=None):
         """
@@ -52,12 +74,11 @@ class Dispatcher:
         }
 
         """
-        is_multiline_command = False
+        rest = False
         token, args = docker_command[0].lower(), docker_command[1:]
 
         if '&&' in args or '\n&&' in args:
-            is_multiline_command = True
-            args, rest = self.process_chained_commands(args)
+            args, rest, is_multiline_command = self.process_chained_commands(args)
 
         if token in self._callbacks:
             if (self._callbacks[token][FUNCTION_CHAR] is not None):
@@ -80,7 +101,10 @@ class Dispatcher:
         if self.consecutive_run.get('count') > 1:
             App._collecter.throw(2012, self.consecutive_run.get('line'))
 
-        if is_multiline_command and rest:
+        if rest:
+            if is_multiline_command:
+                lineno += 1
+
             rest.insert(0, 'RUN')
             self.consecutive_run['count'] = 0
             self.react(rest, lineno)
