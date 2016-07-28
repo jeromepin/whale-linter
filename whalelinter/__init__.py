@@ -29,7 +29,8 @@ def run():
 
     App._collecter = Collecter(App._config.get('rules'), args.ignore)
 
-    checker = Checker(Parser(args.dockerfile).shlex_to_dictionnary())
+    parser  = Parser(args.DOCKERFILE)
+    checker = Checker(parser.shlex_to_dictionnary())
     checker.check()
 
     App._collecter.display()
