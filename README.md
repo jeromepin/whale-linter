@@ -1,8 +1,8 @@
 # whale-linter
 
-[![PyPI](https://img.shields.io/pypi/v/whalelinter.svg)](https://pypi.python.org/pypi/whalelinter)
-[![PyPI](https://img.shields.io/pypi/dm/whalelinter.svg)](https://pypi.python.org/pypi/whalelinter)
-[![PyPI](https://img.shields.io/pypi/l/whalelinter.svg)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/whale-linter.svg)](https://pypi.python.org/pypi/whale-linter)
+[![PyPI](https://img.shields.io/pypi/dm/whale-linter.svg)](https://pypi.python.org/pypi/whale-linter)
+[![PyPI](https://img.shields.io/pypi/l/whale-linter.svg)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
 [![Docker Stars](https://img.shields.io/docker/stars/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
 
@@ -21,7 +21,7 @@
 
 ### Docker : The cool way :)
 
-**Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.3`) instead of (implicit) *latest* 
+**Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.4`) instead of (implicit) *latest*
 
 ```
 docker run -it --rm -v /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
@@ -31,13 +31,13 @@ docker run -it --rm -v /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
 ### PyPI : The easy way
 
 ```bash
-pip install whalelinter
+pip install whale-linter
 ```
 
 and to upgrade :
 
 ```bash
-pip install --upgrade whalelinter
+pip install --upgrade whale-linter
 ```
 
 
