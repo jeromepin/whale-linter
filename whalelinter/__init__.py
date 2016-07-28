@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import sys
 import argparse
-import os.path
 from pkg_resources import get_distribution, DistributionNotFound
 
 from whalelinter.app       import App
@@ -13,16 +11,16 @@ __all__ = ['run']
 
 
 def run():
-    dist = get_distribution('whalelinter')
+    dist = get_distribution('whale-linter')
     __version__ = dist.version
 
     parser = argparse.ArgumentParser(description='A simple non professional Dockerfile linter')
     parser.add_argument('-i', '--ignore', default=None, help='Rule to ignore', action='append')
     parser.add_argument('-v', '--version', help='Print version', action='version', version='%(prog)s {}'.format(__version__))
-    parser.add_argument('dockerfile', help="The Dockerfile to lint")
+    parser.add_argument('DOCKERFILE', help="The Dockerfile to lint (can be a file, a GitHub repo. or a direct URL)")
     args = parser.parse_args()
 
-    print('\n{}\n'.format(args.dockerfile))
+    print('\n{}\n'.format(args.DOCKERFILE))
 
     if args.ignore is None:
         args.ignore = []

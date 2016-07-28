@@ -5,15 +5,15 @@ from os         import path
 import sys
 
 if sys.version_info < (3, 2):
-    print('Whalelinter requires at least Python 3.2 to run.')
+    print('whale-linter requires at least Python 3.2 to run.')
     sys.exit(1)
 
 here = path.abspath(path.dirname(__file__))
 
-version = '0.0.3'
+version = '0.0.4'
 
 setup(
-    name='whalelinter',
+    name='whale-linter',
     version=version,
     packages=find_packages(),
     scripts=['bin/whale-linter'],
