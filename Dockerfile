@@ -1,5 +1,18 @@
 FROM python:3.5.2-alpine
 
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="whale-linter" \
+      org.label-schema.description="A simple and cross-platform Dockerfile linter" \
+      org.label-schema.url="https://github.com/jeromepin/whale-linter" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/jeromepin/whale-linter" \
+      org.label-schema.vendor="Jerome Pin" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
 
 WORKDIR /opt/whale-linter
 
