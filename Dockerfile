@@ -1,6 +1,5 @@
 FROM python:3.5.2-alpine
 
-MAINTAINER Jerome Pin <jerome@jeromepin.fr>
 
 WORKDIR /opt/whale-linter
 
