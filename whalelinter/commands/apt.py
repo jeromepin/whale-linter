@@ -33,7 +33,14 @@ class Apt(PackageManager):
             else:
                 self.packages[idx] = package.split('=')[0]
 
-        if sorted(self.packages) != self.packages:
+        packages_without_versions = []
+        for package in self.packages:
+            if '=' in package:
+                packages_without_versions.append(package.split('=')[0])
+            else:
+                packages_without_versions.append(package)
+
+        if sorted(packages_without_versions) != packages_without_versions:
             App._collecter.throw(3002, self.lineno)
 
     def upgrade(self):
