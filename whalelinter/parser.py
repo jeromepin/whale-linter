@@ -4,26 +4,36 @@ import operator
 import re
 import urllib.request
 import os
+
+from dockerfile_parse import DockerfileParser
+
 from whalelinter.app import App
+from whalelinter.utils import DockerfileCommand
 
 
 class Parser(object):
     def __init__(self, filename):
+        self.dockerfileParser = DockerfileParser()
+
         if self.is_url(filename) is not None:
             response = urllib.request.urlopen(filename)
             if self.is_content_type_plain_text(response):
-                self.file = response.read().decode('utf-8')
+                self.dockerfileParser.content = response.read().decode('utf-8')
             else:
                 print('ERROR: file format not supported\n')
+
         elif os.path.isfile(filename):
-            self.file = open(filename, encoding='utf-8').read()
+            self.dockerfileParser.content = open(filename, encoding='utf-8').read()
+
         elif self.is_github_repo(filename):
             filename = 'https://raw.githubusercontent.com/' + filename + '/master/Dockerfile'
-            self.file = urllib.request.urlopen(filename).read().decode('utf-8')
+            self.dockerfileParser.content = urllib.request.urlopen(filename).read().decode('utf-8')
+
         else:
             print('ERROR: file format not supported\n')
 
         self.TOKENS = App._config.get('all')
+        self.structure = self.dict_to_command_object(self.dockerfileParser.structure)
 
     def is_github_repo(self, filename):
         regex = re.compile(r'^[-_.0-9a-z]+/[-_.0-9a-z]+$', re.IGNORECASE)
@@ -47,26 +57,15 @@ class Parser(object):
 
         return True if regex.search(content_type) is not None else False
 
-    def shlex_to_dictionnary(self):
-        self.lexer                  = shlex.shlex(instream=self.file, posix=True)
-        self.lexer.quotes           = '"'
-        self.lexer.commenters       = '#'
-        self.lexer.whitespace_split = True
+    def dict_to_command_object(self, lst):
+        commands = []
 
-        accumulator = []
-        commands    = {}
-        line        = 0
+        for element in lst:
+            command = DockerfileCommand()
+            command.instruction = element.get('instruction').upper()
+            command.arguments = element.get('value').split(' ')
+            command.line = element.get('startline') + 1
+            command._raw = element.get('content')
+            commands.append(command)
 
-        for word in self.lexer:
-            if word in self.TOKENS:
-                if accumulator:
-                    commands[line] = accumulator
-                    accumulator = []
-
-                line = self.lexer.lineno
-
-            accumulator.append(word)
-
-        commands[line] = accumulator
-
-        return sorted(commands.items(), key=operator.itemgetter(0))
+        return commands
