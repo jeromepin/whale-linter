@@ -67,15 +67,34 @@ class Maintainer(Token):
 @Dispatcher.register(token='run')
 class Run(Token):
     def __init__(self, payload, line):
+        payload = list(filter(None, payload))
+
         Token.__init__(self, __class__, payload, line)
         self.is_pointless()
+
+        shell_command       = self.payload[0]
+        shell_arguments     = self.payload[1:]
+        next_command_index  = False
+
+        if '&&' in shell_arguments:
+            next_command_index  = shell_arguments.index('&&')
+            next_command        = shell_arguments[(next_command_index + 1):]
+            shell_arguments     = shell_arguments[:next_command_index]
+
+        if shell_command in Dispatcher._callbacks['RUN']:
+            if Dispatcher._callbacks['RUN'][shell_command]['self'] is not None:
+                Dispatcher._callbacks['RUN'][shell_command]['self'](token='RUN', command=shell_command, args=shell_arguments, lineno=line)
+
+        if next_command_index and next_command:
+            self.__init__(next_command, self.line)
+
+        return
 
     def is_pointless(self):
         if self.payload[0] in self.pointless_commands:
             App._collecter.throw(2003, self.line, keys={'command': self.payload[0]})
             return True
         return False
-
 
 @Dispatcher.register(token='from')
 class SourceImage(Token):

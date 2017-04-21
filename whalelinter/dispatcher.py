@@ -2,6 +2,7 @@
 from whalelinter.app import App
 
 FUNCTION_CHAR = '_'
+from whalelinter.utils import DockerfileCommand
 
 
 class Dispatcher:
@@ -13,47 +14,7 @@ class Dispatcher:
             'line' : 0
         }
 
-    def process_chained_commands(self, command):
-        idx, is_newline = self.find_first_command_chaining_symbol(command)
-
-        rest    = command[idx + 1:]
-        command = command[:idx]
-
-        if rest[0] == '\n':
-            del rest[0]
-
-        if rest[0].startswith('\n'):
-            rest[0] = rest[0][1:]
-
-        return (command, rest, is_newline)
-
-    def find_first_command_chaining_symbol(self, command):
-        is_newline  = False
-        logical_AND = next((x for x in command if x == '&&'), None)
-        idx         = command.index(logical_AND) if logical_AND else 0
-
-        if idx and (
-            command[idx - 1] == '\n' or \
-            command[idx + 1] == '\n' or \
-            '\n' in command[idx - 1] or \
-            '\n' in command[idx + 1]):
-
-            is_newline = True
-
-        logical_AND = next((x for x in command if x == '\n&&'), None)
-        if logical_AND :
-            if idx > 0:
-                if command.index(logical_AND) < idx:
-                    idx        = command.index(logical_AND)
-                    is_newline = True
-            else:
-                idx        = command.index(logical_AND)
-                is_newline = True
-
-        return (idx, is_newline)
-
-
-    def react(self, docker_command, lineno=None):
+    def react(self, docker_command):
         """
         When a command is identified, find the corresponding callback and
         let it handle the command.
@@ -74,40 +35,19 @@ class Dispatcher:
         }
 
         """
-        rest = False
-        token, args = docker_command[0].lower(), docker_command[1:]
+        if (self._callbacks[docker_command.instruction]['self'] is not None):
+            self._callbacks[docker_command.instruction]['self'](docker_command.arguments, docker_command.line)
 
-        if '&&' in args or '\n&&' in args:
-            args, rest, is_multiline_command = self.process_chained_commands(args)
-
-        if token in self._callbacks:
-            if (self._callbacks[token][FUNCTION_CHAR] is not None):
-                self._callbacks[token][FUNCTION_CHAR](args, lineno)
-
-            if token == 'run':
-                self.consecutive_run['count'] += 1
-                self.consecutive_run['line']   = lineno
-            else:
-                self.consecutive_run['count'] = 0
-
-            command = args[0]
-            args = args[1:]
-
-            if command in self._callbacks[token]:
-
-                if self._callbacks[token][command][FUNCTION_CHAR] is not None:
-                    self._callbacks[token][command][FUNCTION_CHAR](token=token, command=command, args=args, lineno=lineno)
+        if docker_command.instruction == 'RUN':
+            self.consecutive_run['count'] += 1
+            self.consecutive_run['line']  = docker_command.line
+        else:
+            self.consecutive_run['count'] = 0
 
         if self.consecutive_run.get('count') > 1:
             App._collecter.throw(2012, self.consecutive_run.get('line'))
 
-        if rest:
-            if is_multiline_command:
-                lineno += 1
 
-            rest.insert(0, 'RUN')
-            self.consecutive_run['count'] = 0
-            self.react(rest, lineno)
 
     @classmethod
     def register(cls, func=None, token=None, command=None):
