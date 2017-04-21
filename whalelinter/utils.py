@@ -8,9 +8,20 @@ COLORS = {
     'BOLD'  : '\033[1m',
 }
 
+class DockerfileCommand:
+    def __init__(self):
+        self.instruction = None
+        self.arguments = None
+        self.line = None
+        self._raw = None
+
+    def __repr__(self):
+        return self.instruction + ' ' + ' '.join(self.arguments)
+
 
 class Log:
     def __init__(self, rule, line, keys):
+        # print(rule)
         self.id       = rule.get('id')
         self.category = rule.get('category')
         self.message  = rule.get('message').format(**keys)
