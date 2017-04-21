@@ -16,12 +16,13 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 WORKDIR /opt/whale-linter
 
-COPY LICENSE MANIFEST.in README.md setup.py /opt/whale-linter/
+COPY LICENSE MANIFEST.in README.md setup.py requirements.txt /opt/whale-linter/
 COPY bin /opt/whale-linter/bin/
 COPY whalelinter /opt/whale-linter/whalelinter/
 
 RUN apk update \
 &&  apk add ca-certificates \
+&&  pip3 --proxy=http://proxy.esrf.fr:3128 install -r requirements.txt \
 &&  python3 setup.py install
 
 ENTRYPOINT ["whale-linter"]

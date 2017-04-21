@@ -5,7 +5,7 @@ from pkg_resources import get_distribution, DistributionNotFound
 from whalelinter.app       import App
 from whalelinter.parser    import Parser
 from whalelinter.checker   import Checker
-from whalelinter.collecter import Collecter
+from whalelinter.utils     import Collecter
 
 __all__ = ['run']
 
