@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 from whalelinter.app import App
-
-FUNCTION_CHAR = '_'
 from whalelinter.utils import DockerfileCommand
 
 
@@ -21,14 +19,14 @@ class Dispatcher:
 
         self._callbacks = {
             'run' = {
-                '_': func(self.caller, args), # represents the 'run' function
+                'self': func(self.caller, args), # represents the 'run' function
                 'apt-get' = {
-                    '_': func(self.caller, args),
+                    'self': func(self.caller, args),
                     'install' = {
-                        '_': func(self.caller, args),
+                        'self': func(self.caller, args),
                     },
                     'upgrade' = {
-                        '_': func(self.caller, args),
+                        'self': func(self.caller, args),
                     }
                 }
             }
@@ -65,27 +63,29 @@ class Dispatcher:
         """
 
         if (not cls._callbacks):
-            cls._callbacks = {x.lower(): {FUNCTION_CHAR: None, } for x in App._config.get('all')}
+            cls._callbacks = {x.upper(): {'self': None, } for x in App._config.get('all')}
 
         if hasattr(func, '__call__'):
             token = func.__name__
 
+        token = token.upper()
+
         if token and command:
             if command not in cls._callbacks[token]:
                 cls._callbacks[token][command] = {
-                    FUNCTION_CHAR: None,
+                    'self': None,
                 }
 
         if token and command:
             def decorate(func):
-                cls._callbacks[token][command][FUNCTION_CHAR] = func
+                cls._callbacks[token][command]['self'] = func
 
                 return func
 
         if token and not command:
 
             def decorate(func):
-                cls._callbacks[token][FUNCTION_CHAR] = func
+                cls._callbacks[token]['self'] = func
 
                 return func
 
