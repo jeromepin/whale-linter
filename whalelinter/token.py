@@ -2,7 +2,7 @@
 
 from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
-from whalelinter.commands.command   import Command
+from whalelinter.commands.command import ShellCommand
 # from whalelinter.commands.apt import Apt
 
 

@@ -4,7 +4,7 @@ import inspect
 from whalelinter.app import App
 
 
-class Command:
+class ShellCommand:
     _callbacks = {}
 
     @classmethod
@@ -39,7 +39,7 @@ class Command:
                         callback.get('function')(callback.get('instance'))
 
 
-class PackageManager(Command):
+class PackageManager(ShellCommand):
 
     def find_packages(self):
         lst = list(self.rest)
