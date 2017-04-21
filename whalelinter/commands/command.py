@@ -2,9 +2,10 @@
 
 import inspect
 from whalelinter.app import App
+from abc import ABC
 
 
-class ShellCommand:
+class ShellCommand(ABC):
     _callbacks = {}
 
     @classmethod
