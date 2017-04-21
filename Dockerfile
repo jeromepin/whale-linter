@@ -16,7 +16,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 WORKDIR /opt/whale-linter
 
-COPY LICENSE MANIFEST.in README.md setup.py /opt/whale-linter/
+COPY LICENSE MANIFEST.in README.md setup.py requirements.txt /opt/whale-linter/
 COPY bin /opt/whale-linter/bin/
 COPY whalelinter /opt/whale-linter/whalelinter/
 
