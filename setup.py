@@ -10,7 +10,7 @@ if sys.version_info < (3, 2):
 
 here = path.abspath(path.dirname(__file__))
 
-version = '0.0.5-5'
+version = '0.0.6'
 
 setup(
     name='whale-linter',
