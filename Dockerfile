@@ -22,6 +22,7 @@ COPY whalelinter /opt/whale-linter/whalelinter/
 
 RUN apk update \
 &&  apk add ca-certificates \
+&&  pip3 install -r requirements.txt \
 &&  python3 setup.py install
 
 ENTRYPOINT ["whale-linter"]
