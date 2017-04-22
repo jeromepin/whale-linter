@@ -12,6 +12,7 @@
     ],
     "all": [
         "ADD",
+	"ARG",
         "CMD",
         "COPY",
         "ENTRYPOINT",
