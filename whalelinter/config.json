@@ -2,9 +2,7 @@
     "mandatory": [
         "FROM"
     ],
-    "recommended": [
-        "MAINTAINER"
-    ],
+    "recommended": [],
     "unique": [
         "CMD",
         "ENTRYPOINT",
@@ -12,7 +10,7 @@
     ],
     "all": [
         "ADD",
-	"ARG",
+        "ARG",
         "CMD",
         "COPY",
         "ENTRYPOINT",
@@ -119,6 +117,11 @@
             "id": "2012",
             "message": "There is two consecutive 'RUN'. Consider chaining them with '\\' and '&&'",
             "category": "BadPractice"
+        },
+        {
+            "id": "2013",
+            "message": "The '{instruction}' instruction is deprecated. Remove it !",
+            "category": "Deprecated"
         },
         {
             "id": "3000",

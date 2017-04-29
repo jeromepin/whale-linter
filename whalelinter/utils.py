@@ -55,7 +55,7 @@ class Collecter:
             {
                 'level'      : 'warning',
                 'color'      : 'yellow',
-                'categories' : ['BadPractice', 'Pointless']
+                'categories' : ['BadPractice', 'Deprecated', 'Pointless']
             },
             {
                 'level'      : 'enhancement',

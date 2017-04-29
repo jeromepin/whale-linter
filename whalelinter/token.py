@@ -62,6 +62,7 @@ class Expose(Token):
 class Maintainer(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
+        App._collecter.throw(2013, self.line, keys={'instruction': 'maintainer'})
 
 
 @Dispatcher.register(token='run')
