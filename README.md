@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/l/whale-linter.svg)](https://raw.githubusercontent.com/jeromepin/whale-linter/master/LICENSE)
 [![Docker Stars](https://img.shields.io/docker/stars/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/jeromepin/whale-linter.svg)](https://hub.docker.com/r/jeromepin/whale-linter/)
+[![](https://images.microbadger.com/badges/image/jeromepin/whale-linter.svg)](https://microbadger.com/images/jeromepin/whale-linter "Get your own image badge on microbadger.com")
 
 **whale-linter** is a cross-platform *Dockerfile* linter.
 
