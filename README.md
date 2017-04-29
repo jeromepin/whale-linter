@@ -22,7 +22,7 @@
 
 ### Docker : The cool way :)
 
-**Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.4`) instead of (implicit) *latest*
+**Note** : You should use a specific tag (like `jeromepin/whale-linter:0.0.7`) instead of (implicit) *latest*
 
 ```
 docker run -it --rm -v /path/to/Dockerfile:/Dockerfile jeromepin/whale-linter
