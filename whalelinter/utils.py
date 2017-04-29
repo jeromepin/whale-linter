@@ -8,6 +8,7 @@ COLORS = {
     'BOLD'  : '\033[1m',
 }
 
+
 class DockerfileCommand:
     def __init__(self):
         self.instruction = None
@@ -21,7 +22,6 @@ class DockerfileCommand:
 
 class Log:
     def __init__(self, rule, line, keys):
-        # print(rule)
         self.id       = rule.get('id')
         self.category = rule.get('category')
         self.message  = rule.get('message').format(**keys)
@@ -65,7 +65,6 @@ class Collecter:
         ]
 
     def throw(self, id, line=None, keys={}):
-        # rule = (item for item in self.rules if .get(id) == id)
         if str(id) not in self.ignore:
             for rule in self.rules:
                 if rule.get('id') == str(id):

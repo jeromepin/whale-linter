@@ -96,6 +96,7 @@ class Run(Token):
             return True
         return False
 
+
 @Dispatcher.register(token='from')
 class SourceImage(Token):
     def __init__(self, payload, line):
