@@ -28,7 +28,7 @@ def run():
     App._collecter = Collecter(App._config.get('rules'), args.ignore)
 
     parser  = Parser(args.DOCKERFILE)
-    checker = Checker(parser.structure)
+    checker = Checker(parser.commands)
     checker.check()
 
     App._collecter.display()

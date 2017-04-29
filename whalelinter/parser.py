@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-import shlex
-import operator
 import re
 import urllib.request
 import os
@@ -11,29 +9,38 @@ from whalelinter.app import App
 from whalelinter.utils import DockerfileCommand
 
 
-class Parser(object):
+class Parser(DockerfileParser):
     def __init__(self, filename):
-        self.dockerfileParser = DockerfileParser()
+        DockerfileParser.__init__(self, cache_content=True)
+        self.dockerfile_path = filename
 
         if self.is_url(filename) is not None:
             response = urllib.request.urlopen(filename)
             if self.is_content_type_plain_text(response):
-                self.dockerfileParser.content = response.read().decode('utf-8')
+                self.content = response.read().decode('utf-8')
             else:
                 print('ERROR: file format not supported\n')
 
         elif os.path.isfile(filename):
-            self.dockerfileParser.content = open(filename, encoding='utf-8').read()
+            self.content = open(filename, encoding='utf-8').read()
 
         elif self.is_github_repo(filename):
             filename = 'https://raw.githubusercontent.com/' + filename + '/master/Dockerfile'
-            self.dockerfileParser.content = urllib.request.urlopen(filename).read().decode('utf-8')
+            self.content = urllib.request.urlopen(filename).read().decode('utf-8')
 
         else:
             print('ERROR: file format not supported\n')
 
         self.TOKENS = App._config.get('all')
-        self.structure = self.dict_to_command_object(self.dockerfileParser.structure)
+        self.commands = self.dict_to_command_object(self.structure)
+
+    @property
+    def content(self):
+        pass
+
+    @content.setter
+    def content(self, content):
+        pass
 
     def is_github_repo(self, filename):
         regex = re.compile(r'^[-_.0-9a-z]+/[-_.0-9a-z]+$', re.IGNORECASE)
