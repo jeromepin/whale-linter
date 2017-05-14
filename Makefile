@@ -1,6 +1,14 @@
 VERSION=`grep "version =" setup.py | egrep -o '([-.0-9]+)'`
 
-default: github pip docker-image
+default: build
+
+tests:
+	python3 tests.py
+
+build:
+	python3 setup.py install --user >> /dev/null
+
+publish: github pip docker-image
 
 github:
 	git tag --force $(VERSION) && \
