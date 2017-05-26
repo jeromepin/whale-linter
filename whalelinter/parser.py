@@ -31,7 +31,6 @@ class Parser(DockerfileParser):
         else:
             print('ERROR: file format not supported\n')
 
-        self.TOKENS = App._config.get('all')
         self.commands = self.dict_to_command_object(self.structure)
 
     @property

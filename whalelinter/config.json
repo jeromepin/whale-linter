@@ -42,12 +42,12 @@
     "rules": [
         {
             "id": "1000",
-            "message": "'{token}' is mandatory",
+            "message": "'{instruction}' is mandatory",
             "category": "NotFound"
         },
         {
             "id": "1001",
-            "message": "'{token}' must be present only once",
+            "message": "'{instruction}' must be present only once",
             "category": "TooMuch"
         },
         {
@@ -132,7 +132,7 @@
         },
         {
             "id": "3001",
-            "message": "Using '{token}' is recommended",
+            "message": "Using '{instruction}' is recommended",
             "category": "Maintainability"
         },
         {

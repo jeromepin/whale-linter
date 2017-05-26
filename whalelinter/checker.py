@@ -26,10 +26,10 @@ class Checker(object):
             App._collecter.throw(3000, keys={'line': Apt._has_been_used})
 
         for mandatory_token in App._mandatory_tokens:
-            App._collecter.throw(1000, keys={'token': mandatory_token})
+            App._collecter.throw(1000, keys={'instruction': mandatory_token})
 
         for recommended_token in App._recommended_tokens:
-            App._collecter.throw(3001, keys={'token': recommended_token})
+            App._collecter.throw(3001, keys={'instruction': recommended_token})
 
     def must_be_present(self, instruction):
         if instruction in App._mandatory_tokens:
@@ -43,4 +43,4 @@ class Checker(object):
         if instruction in App._unique_tokens:
             App._unique_tokens[instruction] += 1
             if App._unique_tokens[instruction] > 1:
-                App._collecter.throw(1001, self.line_number, keys={'token': instruction})
+                App._collecter.throw(1001, self.line_number, keys={'instruction': instruction})
