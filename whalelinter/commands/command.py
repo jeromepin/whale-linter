@@ -55,7 +55,7 @@ class PackageManager(ShellCommand):
     def is_parameter_present(self, **kwargs):
         if 'parameter' in kwargs and 'args' in kwargs:
             if kwargs.get('parameter') not in kwargs.get('args'):
-                App._collecter.throw(2010, self.lineno, keys={
+                App._collecter.throw(2010, line=self.lineno, keys={
                     'parameter' : kwargs.get('parameter'),
                     'command'   : self.full_command
                 })

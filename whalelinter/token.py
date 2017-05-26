@@ -24,12 +24,12 @@ class Add(Token):
         self.download_from_url()
 
     def is_present(self):
-        App._collecter.throw(2006, self.line)
+        App._collecter.throw(2006, line=self.line)
         return True
 
     def download_from_url(self):
         if ('http://' in self.payload[0] or 'https://' in self.payload[0]):
-            App._collecter.throw(3004, self.line)
+            App._collecter.throw(3004, line=self.line)
             return True
         return False
 
@@ -47,14 +47,14 @@ class Expose(Token):
             port = port.split('/')[0]
 
         if int(port) < 1 or int(port) > 65535:
-            App._collecter.throw(2005, self.line, keys={'port': port})
+            App._collecter.throw(2005, line=self.line, keys={'port': port})
             return False
         return True
 
     def is_tcp_or_udp(self, port):
         if '/' in port:
             if port.split('/')[1] != 'tcp' and port.split('/')[1] != 'udp':
-                App._collecter.throw(2009, self.line)
+                App._collecter.throw(2009, line=self.line)
                 return False
         return True
 
@@ -67,28 +67,29 @@ class Label(Token):
 
         self.is_namespaced()
         self.uses_reserved_namespaces()
+        self.is_label_schema_compliant()
 
     def is_namespaced(self):
         for key in self.labels.keys():
             if key.count('.') < 2:
-                App._collecter.throw(3005, self.line, keys={'label':key})
+                App._collecter.throw(3005, line=self.line, keys={'label':key})
 
     def uses_reserved_namespaces(self):
         for key in self.labels.keys():
             for reserved_namespaces in ['com.docker', 'io.docker', 'org.dockerproject']:
                 if key.startswith(reserved_namespaces):
-                    App._collecter.throw(2014, self.line, keys={'label':reserved_namespaces})
+                    App._collecter.throw(2014, line=self.line, keys={'label':reserved_namespaces})
 
     def uses_valid_characters(self):
         for key in self.labels.keys():
             if not re.match('^[a-z0-9-.]+$', key):
-                App._collecter.throw(1003, self.line, keys={'label':key})
+                App._collecter.throw(1003, line=self.line, keys={'label':key})
 
 @Dispatcher.register(token='maintainer')
 class Maintainer(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        App._collecter.throw(2013, self.line, keys={'instruction': 'maintainer'})
+        App._collecter.throw(2013, line=self.line, keys={'instruction': 'maintainer'})
 
 
 @Dispatcher.register(token='run')
@@ -119,7 +120,7 @@ class Run(Token):
 
     def is_pointless(self):
         if self.payload[0] in self.pointless_commands:
-            App._collecter.throw(2003, self.line, keys={'command': self.payload[0]})
+            App._collecter.throw(2003, line=self.line, keys={'command': self.payload[0]})
             return True
         return False
 
@@ -134,19 +135,19 @@ class SourceImage(Token):
 
     def is_too_long(self):
         if len(self.payload) > 1:
-            App._collecter.throw(1002, self.line, keys={'command': self.payload})
+            App._collecter.throw(1002, line=self.line, keys={'command': self.payload})
             return True
         return False
 
     def has_no_tag(self):
         if ':' not in self.payload[0]:
-            App._collecter.throw(2000, self.line, keys={'image': self.payload[0]})
+            App._collecter.throw(2000, line=self.line, keys={'image': self.payload[0]})
             return True
         return False
 
     def has_latest_tag(self):
         if ':latest' in self.payload[0]:
-            App._collecter.throw(2001, self.line)
+            App._collecter.throw(2001, line=self.line)
             return True
         return False
 
@@ -158,7 +159,7 @@ class User(Token):
 
     def is_becoming_root(self):
         if self.payload[0] == 'root':
-            App._collecter.throw(2007, self.line)
+            App._collecter.throw(2007, line=self.line)
             return True
         return False
 
@@ -170,6 +171,6 @@ class Workdir(Token):
 
     def has_relative_path(self):
         if not payload[0].startswith('/'):
-            App._collecter.throw(2004, self.line)
+            App._collecter.throw(2004, line=self.line)
             return True
         return False

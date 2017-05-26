@@ -43,7 +43,7 @@ class Dispatcher:
             self.consecutive_run['count'] = 0
 
         if self.consecutive_run.get('count') > 1:
-            App._collecter.throw(2012, self.consecutive_run.get('line'))
+            App._collecter.throw(2012, line=self.consecutive_run.get('line'))
 
     @classmethod
     def register(cls, func=None, token=None, command=None):

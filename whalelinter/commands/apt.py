@@ -29,7 +29,7 @@ class Apt(PackageManager):
     def install(self):
         for idx, package in enumerate(self.packages):
             if '=' not in package:
-                App._collecter.throw(3003, self.lineno, keys={'package': package})
+                App._collecter.throw(3003, line=self.lineno, keys={'package': package})
             else:
                 self.packages[idx] = package.split('=')[0]
 
@@ -41,19 +41,19 @@ class Apt(PackageManager):
                 packages_without_versions.append(package)
 
         if sorted(packages_without_versions) != packages_without_versions:
-            App._collecter.throw(3002, self.lineno)
+            App._collecter.throw(3002, line=self.lineno)
 
     def upgrade(self):
-        App._collecter.throw(2008, self.lineno)
+        App._collecter.throw(2008, line=self.lineno)
 
         for idx, package in enumerate(self.packages):
             if '=' not in package:
-                App._collecter.throw(3003, self.lineno, keys={'package': package})
+                App._collecter.throw(3003, line=self.lineno, keys={'package': package})
             else:
                 packages[idx] = package.split('=')[0]
 
         if self.packages and sorted(self.packages) == self.packages:
-            App._collecter.throw(3002, self.lineno)
+            App._collecter.throw(3002, line=self.lineno)
 
     def dist_upgrade(self):
-        App._collecter.throw(2011, self.lineno)
+        App._collecter.throw(2011, line=self.lineno)

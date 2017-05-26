@@ -54,10 +54,10 @@ class DockerfileCommand:
 
 
 class Log:
-    def __init__(self, rule, line, keys):
-        self.id       = rule.get('id')
+    def __init__(self, rule, line, message):
+        self.rule     = rule
         self.category = rule.get('category')
-        self.message  = rule.get('message').format(**keys)
+        self.message  = message
 
         if line is None:
             line = 0
@@ -107,13 +107,21 @@ class Collecter:
                 return log_class.get('level')
         return None
 
-    def throw(self, id, line=None, keys={}):
-        if str(id) not in self.ignore:
-            for rule in self.rules:
-                if rule.get('id') == str(id):
-                    break
+    def get_rule_by_id(self, rule_id):
+        for rule in self.rules:
+            if rule.get('id') == str(rule_id):
+                return rule
+        return None
 
-            log = Log(rule, line, keys)
+    def throw(self, id, **kwargs):
+        if str(id) not in self.ignore:
+            rule    = self.get_rule_by_id(id)
+            message = rule.get('message')
+
+            if kwargs.get('keys'):
+                message = message.format(**(kwargs.get('keys')))
+
+            log = Log(rule, kwargs.get('line'), message)
             self.logs.append(log)
 
     def find_longest_category_name(self, level):

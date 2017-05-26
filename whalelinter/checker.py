@@ -43,4 +43,4 @@ class Checker(object):
         if instruction in App._unique_tokens:
             App._unique_tokens[instruction] += 1
             if App._unique_tokens[instruction] > 1:
-                App._collecter.throw(1001, self.line_number, keys={'instruction': instruction})
+                App._collecter.throw(1001, line=self.line_number, keys={'instruction': instruction})
