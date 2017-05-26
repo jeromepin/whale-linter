@@ -14,6 +14,33 @@ COLORS = {
     'BOLD'  : '\033[1m',
 }
 
+class Tools:
+
+    @staticmethod
+    def sanitize_list(lst):
+        lst = [i for i in lst if i != '']
+        return lst
+
+    @staticmethod
+    def merge_odd_strings(lst):
+        bad_splitted_string = False
+        for s in lst:
+            if '=' not in s:
+                bad_splitted_string = True
+
+        if bad_splitted_string:
+            indexes = []
+            for string in lst:
+                if '=' not in string:
+                    if not string.startswith('"'):
+                        indexes.append(lst.index(string))
+
+            for idx in reversed(indexes):
+                lst[idx - 1] = str(lst[idx - 1]) + ' ' + str(lst[idx])
+                lst[idx] = ''
+
+        return Tools.sanitize_list(lst)
+
 
 class DockerfileCommand:
     def __init__(self):
@@ -70,7 +97,7 @@ class Collecter:
             {
                 'level'      : 'enhancement',
                 'color'      : 'blue',
-                'categories' : ['BestPractice', 'Immutability', 'Maintainability']
+                'categories' : ['BestPractice', 'Immutability', 'Maintainability', 'Universality']
             },
         ]
 

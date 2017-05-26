@@ -3,6 +3,7 @@
 from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
 from whalelinter.commands.command import ShellCommand
+from whalelinter.utils import Tools
 # from whalelinter.commands.apt import Apt
 
 
@@ -57,6 +58,31 @@ class Expose(Token):
                 return False
         return True
 
+@Dispatcher.register(token='label')
+class Label(Token):
+    def __init__(self, payload, line):
+        Token.__init__(self, __class__, payload, line)
+        self.payload = Tools.merge_odd_strings(Tools.sanitize_list(self.payload))
+        self.labels  = {l.split('=')[0]: l.split('=')[1] for l in self.payload}
+
+        self.is_namespaced()
+        self.uses_reserved_namespaces()
+
+    def is_namespaced(self):
+        for key in self.labels.keys():
+            if key.count('.') < 2:
+                App._collecter.throw(3005, self.line, keys={'label':key})
+
+    def uses_reserved_namespaces(self):
+        for key in self.labels.keys():
+            for reserved_namespaces in ['com.docker', 'io.docker', 'org.dockerproject']:
+                if key.startswith(reserved_namespaces):
+                    App._collecter.throw(2014, self.line, keys={'label':reserved_namespaces})
+
+    def uses_valid_characters(self):
+        for key in self.labels.keys():
+            if not re.match('^[a-z0-9-.]+$', key):
+                App._collecter.throw(1003, self.line, keys={'label':key})
 
 @Dispatcher.register(token='maintainer')
 class Maintainer(Token):

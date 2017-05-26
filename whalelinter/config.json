@@ -56,6 +56,11 @@
             "category": "TooLong"
         },
         {
+            "id": "1003",
+            "message": "Label '{label}' must use [a-z0-9]+, dots and dashes",
+            "category": "BadValue"
+        },
+        {
             "id": "2000",
             "message": "A tag should be specified for the '{image}' image",
             "category": "BadPractice"
@@ -126,6 +131,11 @@
             "category": "Deprecated"
         },
         {
+            "id": "2014",
+            "message": "Label '{label}' is reserved to the Docker project",
+            "category": "BadPractice"
+        },
+        {
             "id": "3000",
             "message": "Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*' after line {line}",
             "category": "BestPractice"
@@ -149,6 +159,11 @@
             "id": "3004",
             "message": "Prefer using 'RUN curl' or 'RUN wget' rather than 'ADD http(s)://*'",
             "category": "BestPractice"
+        },
+        {
+            "id": "3005",
+            "message": "Label '{label}' should be namespaced using reverse DNS notation",
+            "category": "Universality"
         }
     ]
 }
