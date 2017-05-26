@@ -39,6 +39,23 @@
         "ssh",
         "top"
     ],
+    "log_classes": [
+        {
+            "level"      : "critical",
+            "color"      : "red",
+            "categories" : ["NotFound", "TooMuch", "TooLong", "BadValue"]
+        },
+        {
+            "level"      : "warning",
+            "color"      : "yellow",
+            "categories" : ["BadPractice", "Deprecated", "Pointless"]
+        },
+        {
+            "level"      : "enhancement",
+            "color"      : "blue",
+            "categories" : ["BestPractice", "Immutability", "Maintainability", "Universality"]
+        }
+    ],
     "rules": [
         {
             "id": "1000",

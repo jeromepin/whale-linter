@@ -83,23 +83,7 @@ class Collecter:
         self.ignore      = ignore
         self.rules       = rules
         self.logs        = []
-        self.log_classes = [
-            {
-                'level'      : 'critical',
-                'color'      : 'red',
-                'categories' : ['NotFound', 'TooMuch', 'TooLong', 'BadValue']
-            },
-            {
-                'level'      : 'warning',
-                'color'      : 'yellow',
-                'categories' : ['BadPractice', 'Deprecated', 'Pointless']
-            },
-            {
-                'level'      : 'enhancement',
-                'color'      : 'blue',
-                'categories' : ['BestPractice', 'Immutability', 'Maintainability', 'Universality']
-            },
-        ]
+        self.log_classes = App._config['log_classes']
 
     def get_level_by_category(self, category):
         for log_class in self.log_classes:
