@@ -17,14 +17,15 @@ def run():
     parser = argparse.ArgumentParser(description='A simple non professional Dockerfile linter')
     parser.add_argument('-i', '--ignore', default=None, help='Rule to ignore', action='append')
     parser.add_argument('-v', '--version', help='Print version', action='version', version='%(prog)s {}'.format(__version__))
+    parser.add_argument('-n', '--no-color', help='Disable color when printing', action="store_true")
+    parser.add_argument('-J', '--json', help='Output as JSON', action="store_true")
     parser.add_argument('DOCKERFILE', help="The Dockerfile to lint (can be a file, a GitHub repo. or a direct URL)")
     args = parser.parse_args()
-
-    print('\n{}\n'.format(args.DOCKERFILE))
 
     if args.ignore is None:
         args.ignore = []
 
+    App._args      = vars(args)
     App._collecter = Collecter(App._config.get('rules'), args.ignore)
 
     parser  = Parser(args.DOCKERFILE)

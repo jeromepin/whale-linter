@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+
+import json
+
+from whalelinter.app import App
+
+
 COLORS = {
     'BLUE'  : '\033[94m',
     'GREEN' : '\033[92m',
@@ -40,6 +46,10 @@ class Log:
         else:
             print('      {}{}{} : {}{}'.format(COLORS.get(color.upper()), self.category, category_right_padding, COLORS.get('ENDC'), self.message))
 
+    def displayLight(self, level):
+        print('{}:{}'.format(level, self.message))
+
+
 
 class Collecter:
     def __init__(self, rules, ignore=None):
@@ -63,6 +73,12 @@ class Collecter:
                 'categories' : ['BestPractice', 'Immutability', 'Maintainability']
             },
         ]
+
+    def get_level_by_category(self, category):
+        for log_class in self.log_classes:
+            if category in log_class.get('categories'):
+                return log_class.get('level')
+        return None
 
     def throw(self, id, line=None, keys={}):
         if str(id) not in self.ignore:
@@ -92,20 +108,43 @@ class Collecter:
         return length
 
     def display(self):
-        if self.logs:
-            self.logs.sort(key=(lambda log: log.line))
+        if App._args.get('json'):
+            if self.logs:
+                output = {log_class.get('level'): { c: {} for c in log_class.get('categories') } for log_class in self.log_classes}
 
-            for log_class in self.log_classes:
-                level      = log_class.get('level')
-                color      = log_class.get('color').upper()
-                categories = log_class.get('categories')
-
-                print('{}{} :{}'.format(COLORS.get(color), level.upper(), COLORS.get('ENDC')))
                 for log in self.logs:
-                    if log.category in categories:
-                        category_right_padding = self.find_longest_category_name(level) - len(log.category)
-                        line_number_right_padding = self.find_highest_line_number() - len(str(log.line))
-                        log.display(color, category_right_padding, line_number_right_padding)
-                print()
+                    output[self.get_level_by_category(log.category)][log.category] = log.__dict__
+
+                print(json.dumps(output))
         else:
-            print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))
+            if App._args.get('no_color'):
+                if self.logs:
+                    self.logs.sort(key=(lambda log: log.line))
+
+                    for log_class in self.log_classes:
+                        level      = log_class.get('level')
+                        categories = log_class.get('categories')
+
+                        for log in self.logs:
+                            if log.category in categories:
+                                log.displayLight(level)
+                else:
+                    print('{}'.format('Everything is good'))
+            else:
+                if self.logs:
+                    self.logs.sort(key=(lambda log: log.line))
+
+                    for log_class in self.log_classes:
+                        level      = log_class.get('level')
+                        color      = log_class.get('color').upper()
+                        categories = log_class.get('categories')
+
+                        print('{}{} :{}'.format(COLORS.get(color), level.upper(), COLORS.get('ENDC')))
+                        for log in self.logs:
+                            if log.category in categories:
+                                category_right_padding = self.find_longest_category_name(level) - len(log.category)
+                                line_number_right_padding = self.find_highest_line_number() - len(str(log.line))
+                                log.display(color, category_right_padding, line_number_right_padding)
+                        print()
+                else:
+                    print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))
