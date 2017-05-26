@@ -17,10 +17,12 @@
         "ENV",
         "EXPOSE",
         "FROM",
+		"HEALTHCHECK",
         "LABEL",
         "MAINTAINER",
         "ONBUILD",
         "RUN",
+		"SHELL",
         "USER",
         "VOLUME",
         "WORKDIR"
