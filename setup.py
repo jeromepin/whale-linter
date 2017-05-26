@@ -24,6 +24,7 @@ setup(
     description="A simple non professional Dockerfile linter",
     long_description='',
     include_package_data=True,
+    zip_safe = False,
     license='MIT',
     url='https://github.com/jeromepin/whale-linter',
     download_url='https://github.com/jeromepin/whale-linter/tarball/' + version,
