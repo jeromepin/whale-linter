@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+
 from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
 from whalelinter.commands.command import ShellCommand
@@ -56,6 +58,12 @@ class Copy(Token):
 class Expose(Token):
     def __init__(self, ports, line):
         Token.__init__(self, __class__, ports, line)
+
+        for port in ports:
+            if '-' in port:
+                ports = ports + port.split('-')
+                ports.remove(port)
+
         for port in ports:
             self.is_in_range(port)
             self.is_tcp_or_udp(port)
