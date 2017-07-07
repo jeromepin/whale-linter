@@ -60,22 +60,26 @@
         {
             "id": "1000",
             "message": "'{instruction}' is mandatory",
-            "category": "NotFound"
+            "category": "NotFound",
+            "unique": "false"
         },
         {
             "id": "1001",
             "message": "'{instruction}' must be present only once",
-            "category": "TooMuch"
+            "category": "TooMuch",
+            "unique": "false"
         },
         {
             "id": "1002",
             "message": "'{command}' has too much arguments. Should be formed like 'FROM image([:tag]|[@digest])'",
-            "category": "TooLong"
+            "category": "TooLong",
+            "unique": "false"
         },
         {
             "id": "1003",
             "message": "Label '{label}' must use [a-z0-9]+, dots and dashes",
-            "category": "BadValue"
+            "category": "BadValue",
+            "unique": "false"
         },
         {
             "id": "1004",
@@ -86,107 +90,129 @@
         {
             "id": "2000",
             "message": "A tag should be specified for the '{image}' image",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2001",
             "message": "Using the 'latest' tag isn't wise, as it won't always be a reference to the same version",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2002",
             "message": "Use 'WORKDIR' to change directory",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2003",
             "message": "Some shell commands like '{command}' are pointless in containers",
-            "category": "Pointless"
+            "category": "Pointless",
+            "unique": "false"
         },
         {
             "id": "2004",
             "message": "'WORKDIR' path should be absolute",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2005",
             "message": "'EXPOSE' port ({port}) must be in 1-65535 range",
-            "category": "BadValue"
+            "category": "BadValue",
+            "unique": "false"
         },
         {
             "id": "2006",
             "message": "Prefer 'COPY' over 'ADD' for adding files and directories to a container. 'ADD' sounds to much magic",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2007",
             "message": "Be careful changing to root user",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2008",
             "message": "Avoid running 'apt-get upgrade' in container. Move to a newer image instead",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2009",
             "message": "Protocol must be either tcp or udp",
-            "category": "BadValue"
+            "category": "BadValue",
+            "unique": "false"
         },
         {
             "id": "2010",
             "message": "Missing '{parameter}' in your '{command}' command",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2011",
             "message": "Avoid running 'apt-get dist-upgrade' in container. Move to a newer image instead",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2012",
             "message": "There is two consecutive 'RUN'. Consider chaining them with '\\' and '&&'",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "2013",
             "message": "The '{instruction}' instruction is deprecated. Remove it !",
-            "category": "Deprecated"
+            "category": "Deprecated",
+            "unique": "false"
         },
         {
             "id": "2014",
             "message": "Label '{label}' is reserved to the Docker project",
-            "category": "BadPractice"
+            "category": "BadPractice",
+            "unique": "false"
         },
         {
             "id": "3000",
             "message": "Consider removing APT cache : 'rm -rf /var/lib/apt/lists/*' after line {line}",
-            "category": "BestPractice"
+            "category": "BestPractice",
+            "unique": "false"
         },
         {
             "id": "3001",
             "message": "Using '{instruction}' is recommended",
-            "category": "Maintainability"
+            "category": "Maintainability",
+            "unique": "false"
         },
         {
             "id": "3002",
             "message": "Consider sorting APT packages for better reading",
-            "category": "Maintainability"
+            "category": "Maintainability",
+            "unique": "false"
         },
         {
             "id": "3003",
             "message": "A version should be specified for the package '{package}' in order to improve immutability",
-            "category": "Immutability"
+            "category": "Immutability",
+            "unique": "false"
         },
         {
             "id": "3004",
             "message": "Prefer using 'RUN curl' or 'RUN wget' rather than 'ADD http(s)://*'",
-            "category": "BestPractice"
+            "category": "BestPractice",
+            "unique": "false"
         },
         {
             "id": "3005",
             "message": "Label '{label}' should be namespaced using reverse DNS notation",
-            "category": "Universality"
+            "category": "Universality",
+            "unique": "false"
+        },
         }
     ]
 }
