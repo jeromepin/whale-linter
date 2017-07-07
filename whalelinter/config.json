@@ -78,6 +78,12 @@
             "category": "BadValue"
         },
         {
+            "id": "1004",
+            "message": "'{file}' does not exists in '{directory}'",
+            "category": "NotFound",
+            "unique": "false"
+        },
+        {
             "id": "2000",
             "message": "A tag should be specified for the '{image}' image",
             "category": "BadPractice"

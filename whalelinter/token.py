@@ -33,6 +33,24 @@ class Add(Token):
             return True
         return False
 
+@Dispatcher.register(token='copy')
+class Copy(Token):
+    def __init__(self, payload, line):
+        Token.__init__(self, __class__, payload, line)
+        self.check_path()
+
+    def check_path(self):
+        local_path = self.payload[0]
+        full_path  = local_path
+
+        if not os.path.isabs(local_path):
+            directory = os.path.dirname(os.path.abspath(App._args.get('DOCKERFILE')))
+            full_path = directory + '/' + local_path
+
+        if not os.path.exists(full_path):
+            App._collecter.throw(1004, line=self.line, keys={'file': local_path, 'directory': directory})
+
+
 
 @Dispatcher.register(token='expose')
 class Expose(Token):
