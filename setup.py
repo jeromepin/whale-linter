@@ -12,10 +12,14 @@ here = path.abspath(path.dirname(__file__))
 
 version = '0.0.7'
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setup(
     name='whale-linter',
     version=version,
     packages=find_packages(),
+    install_requires=requirements,
     scripts=['bin/whale-linter'],
     author="Jerome Pin",
     author_email="jerome@jeromepin.fr",
