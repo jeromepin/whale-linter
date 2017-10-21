@@ -14,6 +14,7 @@ COLORS = {
     'BOLD'  : '\033[1m',
 }
 
+
 class Tools:
 
     @staticmethod
@@ -77,7 +78,6 @@ class Log:
         print('{}:{}'.format(level, self.message))
 
 
-
 class Collecter:
     def __init__(self, rules, ignore=None):
         self.ignore      = ignore
@@ -129,7 +129,7 @@ class Collecter:
     def display(self):
         if App._args.get('json'):
             if self.logs:
-                output = {log_class.get('level'): { c: {} for c in log_class.get('categories') } for log_class in self.log_classes}
+                output = {log_class.get('level'): {c: {} for c in log_class.get('categories')} for log_class in self.log_classes}
 
                 for log in self.logs:
                     output[self.get_level_by_category(log.category)][log.category] = log.__dict__

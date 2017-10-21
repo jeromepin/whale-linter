@@ -56,8 +56,8 @@ class PackageManager(ShellCommand):
         if 'parameter' in kwargs and 'args' in kwargs:
             if kwargs.get('parameter') not in kwargs.get('args'):
                 App._collecter.throw(2010, line=self.lineno, keys={
-                    'parameter' : kwargs.get('parameter'),
-                    'command'   : self.full_command
+                    'parameter': kwargs.get('parameter'),
+                    'command'  : self.full_command
                 })
                 return False
 
