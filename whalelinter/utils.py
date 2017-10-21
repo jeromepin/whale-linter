@@ -131,19 +131,32 @@ class Collecter:
         return length
 
     def display(self):
-        logs = False
+        logs = {
+            'critical': False,
+            'warning':  False,
+            'enhancement': False
+        }
+
         for log_class, v in self.log_classes.items():
             if 'logs' in v:
-                logs = True
+                logs[log_class] = True
 
-        if logs:
+        if logs['critical'] or logs['warning'] or logs['enhancement']:
+
             if App._args.get('json'):
-                print(json.dumps(logs))
+                output = {log_class: {c: {} for c in v.get('categories')} for log_class, v in self.log_classes.items()}
+
+                for log_class, v in self.log_classes.items():
+                    if logs.get(log_class):
+                        for log in v.get('logs'):
+                            output[log_class][v.get('category')] = log.__dict__
+
+                print(json.dumps(output))
 
             elif App._args.get('no_color'):
                 for log_class, v in self.log_classes.items():
                     categories = v.get('categories')
-                    if 'logs' in v:
+                    if logs.get(log_class):
                         for log in v.get('logs'):
                             if log.category in categories:
                                 log.displayLight(log_class)
@@ -152,7 +165,7 @@ class Collecter:
                     color      = v.get('color').upper()
                     categories = v.get('categories')
 
-                    if v.get('logs'):
+                    if logs.get(log_class):
                         print('{}{} :{}'.format(COLORS.get(color), log_class.upper(), COLORS.get('ENDC')))
                         for log in v.get('logs'):
                             if log.category in categories:
@@ -160,6 +173,13 @@ class Collecter:
                                 line_number_right_padding = self.find_highest_line_number() - len(str(log.line))
                                 log.display(color, category_right_padding, line_number_right_padding)
                         print()
+
+            if logs.get('critical'):
+                exit(3)
+            elif logs.get('warning'):
+                exit(2)
+            elif logs.get('enhancement'):
+                exit(1)
         else:
             print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))
             exit(0)
