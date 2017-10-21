@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from whalelinter.app          import App
-from whalelinter.dispatcher   import Dispatcher
-from whalelinter.token        import Maintainer
+from whalelinter.app import App
+from whalelinter.dispatcher import Dispatcher
+from whalelinter.token import Maintainer
 from whalelinter.commands.apt import Apt
 
 import whalelinter.commands.common
@@ -9,9 +9,9 @@ import whalelinter.commands.common
 
 class Checker(object):
     def __init__(self, lst):
-        self.lines              = lst
-        self.line_number        = 0
-        self.consecutive_run    = 0
+        self.lines = lst
+        self.line_number = 0
+        self.consecutive_run = 0
 
     def check(self):
         dispatcher = Dispatcher()
@@ -43,4 +43,9 @@ class Checker(object):
         if instruction in App._unique_tokens:
             App._unique_tokens[instruction] += 1
             if App._unique_tokens[instruction] > 1:
-                App._collecter.throw(1001, line=self.line_number, keys={'instruction': instruction})
+                App._collecter.throw(
+                    1001,
+                    line=self.line_number,
+                    keys={
+                        'instruction': instruction
+                    })

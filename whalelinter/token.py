@@ -6,14 +6,15 @@ from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
 from whalelinter.commands.command import ShellCommand
 from whalelinter.utils import Tools
+
 # from whalelinter.commands.apt import Apt
 
 
 class Token:
     def __init__(self, name, payload, line):
-        self.name    = name
+        self.name = name
         self.payload = payload
-        self.line    = line
+        self.line = line
 
         self.pointless_commands = App._pointless_commands
 
@@ -44,14 +45,21 @@ class Copy(Token):
 
     def check_path(self):
         local_path = self.payload[0]
-        full_path  = local_path
+        full_path = local_path
 
         if not os.path.isabs(local_path):
-            directory = os.path.dirname(os.path.abspath(App._args.get('DOCKERFILE')))
+            directory = os.path.dirname(
+                os.path.abspath(App._args.get('DOCKERFILE')))
             full_path = directory + '/' + local_path
 
         if not os.path.exists(full_path):
-            App._collecter.throw(1004, line=self.line, keys={'file': local_path, 'directory': directory})
+            App._collecter.throw(
+                1004,
+                line=self.line,
+                keys={
+                    'file': local_path,
+                    'directory': directory
+                })
 
 
 @Dispatcher.register(token='expose')
@@ -89,12 +97,13 @@ class Expose(Token):
 class Label(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        self.payload = Tools.merge_odd_strings(Tools.sanitize_list(self.payload))
-        self.labels  = {l.split('=')[0]: l.split('=')[1] for l in self.payload}
+        self.payload = Tools.merge_odd_strings(
+            Tools.sanitize_list(self.payload))
+        self.labels = {l.split('=')[0]: l.split('=')[1] for l in self.payload}
 
         self.is_namespaced()
         self.uses_reserved_namespaces()
-        self.is_label_schema_compliant()
+        # self.is_label_schema_compliant()
 
     def is_namespaced(self):
         for key in self.labels.keys():
@@ -103,9 +112,16 @@ class Label(Token):
 
     def uses_reserved_namespaces(self):
         for key in self.labels.keys():
-            for reserved_namespaces in ['com.docker', 'io.docker', 'org.dockerproject']:
+            for reserved_namespaces in [
+                    'com.docker', 'io.docker', 'org.dockerproject'
+            ]:
                 if key.startswith(reserved_namespaces):
-                    App._collecter.throw(2014, line=self.line, keys={'label': reserved_namespaces})
+                    App._collecter.throw(
+                        2014,
+                        line=self.line,
+                        keys={
+                            'label': reserved_namespaces
+                        })
 
     def uses_valid_characters(self):
         for key in self.labels.keys():
@@ -117,7 +133,10 @@ class Label(Token):
 class Maintainer(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        App._collecter.throw(2013, line=self.line, keys={'instruction': 'maintainer'})
+        App._collecter.throw(
+            2013, line=self.line, keys={
+                'instruction': 'maintainer'
+            })
 
 
 @Dispatcher.register(token='run')
@@ -128,18 +147,22 @@ class Run(Token):
         Token.__init__(self, __class__, payload, line)
         self.is_pointless()
 
-        shell_command       = self.payload[0]
-        shell_arguments     = self.payload[1:]
-        next_command_index  = False
+        shell_command = self.payload[0]
+        shell_arguments = self.payload[1:]
+        next_command_index = False
 
         if '&&' in shell_arguments:
-            next_command_index  = shell_arguments.index('&&')
-            next_command        = shell_arguments[(next_command_index + 1):]
-            shell_arguments     = shell_arguments[:next_command_index]
+            next_command_index = shell_arguments.index('&&')
+            next_command = shell_arguments[(next_command_index + 1):]
+            shell_arguments = shell_arguments[:next_command_index]
 
         if shell_command in Dispatcher._callbacks['RUN']:
             if Dispatcher._callbacks['RUN'][shell_command]['self'] is not None:
-                Dispatcher._callbacks['RUN'][shell_command]['self'](token='RUN', command=shell_command, args=shell_arguments, lineno=line)
+                Dispatcher._callbacks['RUN'][shell_command]['self'](
+                    token='RUN',
+                    command=shell_command,
+                    args=shell_arguments,
+                    lineno=line)
 
         if next_command_index and next_command:
             self.__init__(next_command, self.line)
@@ -148,7 +171,10 @@ class Run(Token):
 
     def is_pointless(self):
         if self.payload[0] in self.pointless_commands:
-            App._collecter.throw(2003, line=self.line, keys={'command': self.payload[0]})
+            App._collecter.throw(
+                2003, line=self.line, keys={
+                    'command': self.payload[0]
+                })
             return True
         return False
 
@@ -163,13 +189,19 @@ class SourceImage(Token):
 
     def is_too_long(self):
         if len(self.payload) > 1:
-            App._collecter.throw(1002, line=self.line, keys={'command': self.payload})
+            App._collecter.throw(
+                1002, line=self.line, keys={
+                    'command': self.payload
+                })
             return True
         return False
 
     def has_no_tag(self):
         if ':' not in self.payload[0]:
-            App._collecter.throw(2000, line=self.line, keys={'image': self.payload[0]})
+            App._collecter.throw(
+                2000, line=self.line, keys={
+                    'image': self.payload[0]
+                })
             return True
         return False
 

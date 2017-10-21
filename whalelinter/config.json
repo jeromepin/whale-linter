@@ -39,23 +39,20 @@
         "ssh",
         "top"
     ],
-    "log_classes": [
-        {
-            "level"      : "critical",
+    "log_classes": {
+        "critical": {
             "color"      : "red",
             "categories" : ["NotFound", "TooMuch", "TooLong", "BadValue"]
         },
-        {
-            "level"      : "warning",
+        "warning": {
             "color"      : "yellow",
             "categories" : ["BadPractice", "Deprecated", "Pointless"]
         },
-        {
-            "level"      : "enhancement",
+        "enhancement": {
             "color"      : "blue",
             "categories" : ["BestPractice", "Immutability", "Maintainability", "Universality"]
         }
-    ],
+    },
     "rules": [
         {
             "id": "1000",
@@ -212,7 +209,6 @@
             "message": "Label '{label}' should be namespaced using reverse DNS notation",
             "category": "Universality",
             "unique": "false"
-        },
         }
     ]
 }

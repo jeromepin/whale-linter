@@ -53,13 +53,14 @@ class Parser(DockerfileParser):
             r'localhost|'  # localhost...
             r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
             r'(?::\d+)?'  # optional port
-            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+            r'(?:/?|[/?]\S+)$',
+            re.IGNORECASE)
 
         return regex.match(filename)
 
     def is_content_type_plain_text(self, response):
         content_type = response.getheader('Content-Type')
-        regex        = re.compile(r'text/plain')
+        regex = re.compile(r'text/plain')
 
         return True if regex.search(content_type) is not None else False
 

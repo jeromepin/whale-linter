@@ -6,7 +6,9 @@ import json
 class App:
     @staticmethod
     def load_configuration():
-        config_file = os.path.dirname(os.path.realpath(__file__)) + '/config.json'
+        config_file = os.path.dirname(
+            os.path.realpath(__file__)) + '/config.json'
+
         with open(config_file) as data_file:
             data = json.load(data_file)
 

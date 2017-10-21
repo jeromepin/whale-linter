@@ -25,7 +25,7 @@ class ShellCommand(ABC):
             cls._callbacks[name].append({
                 'instance': instance,
                 'function': func,
-                'kwargs'  : kwargs
+                'kwargs': kwargs
             })
 
         return decorate
@@ -41,7 +41,6 @@ class ShellCommand(ABC):
 
 
 class PackageManager(ShellCommand):
-
     def find_packages(self):
         lst = list(self.rest)
         for arg in self.args:
@@ -55,35 +54,41 @@ class PackageManager(ShellCommand):
     def is_parameter_present(self, **kwargs):
         if 'parameter' in kwargs and 'args' in kwargs:
             if kwargs.get('parameter') not in kwargs.get('args'):
-                App._collecter.throw(2010, line=self.lineno, keys={
-                    'parameter': kwargs.get('parameter'),
-                    'command'  : self.full_command
-                })
+                App._collecter.throw(
+                    2010,
+                    line=self.lineno,
+                    keys={
+                        'parameter': kwargs.get('parameter'),
+                        'command': self.full_command
+                    })
                 return False
 
         return True
 
     def __init__(self, token, command, rest, line_number):
         """
-            RUN apt-get install -y name
+        RUN apt-get install -y name
 
-            RUN             : token
-            apt-get         : command
-            install -y name  : rest
+        RUN             : token
+        apt-get         : command
+        install -y name  : rest
 
-            install : subcommand
-            -y      : args
-            name     : packages
+        install : subcommand
+        -y      : args
+        name    : packages
 
         """
-        self.token          = token
-        self.command        = command
-        self.rest           = rest
-        self.full_command   = self.command + ' ' + ' '.join(self.rest)
+        self.token = token
+        self.command = command
+        self.rest = rest
+        self.full_command = self.command + ' ' + ' '.join(self.rest)
 
-        self.args           = [arg for arg in self.rest if (arg.startswith('-') or arg.startswith('--'))]
-        self.lineno         = line_number
-        self.methods        = []
+        self.args = [
+            arg for arg in self.rest
+            if (arg.startswith('-') or arg.startswith('--'))
+        ]
+        self.lineno = line_number
+        self.methods = []
 
         self.subcommand, self.packages = self.find_packages()
 

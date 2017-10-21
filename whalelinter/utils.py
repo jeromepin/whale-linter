@@ -82,13 +82,12 @@ class Collecter:
     def __init__(self, rules, ignore=None):
         self.ignore      = ignore
         self.rules       = rules
-        self.logs        = []
         self.log_classes = App._config['log_classes']
 
     def get_level_by_category(self, category):
-        for log_class in self.log_classes:
-            if category in log_class.get('categories'):
-                return log_class.get('level')
+        for log_class, v in self.log_classes.items():
+            if category in v.get('categories'):
+                return log_class
         return None
 
     def get_rule_by_id(self, rule_id):
@@ -105,65 +104,62 @@ class Collecter:
             if kwargs.get('keys'):
                 message = message.format(**(kwargs.get('keys')))
 
-            log = Log(rule, kwargs.get('line'), message)
-            self.logs.append(log)
+            log   = Log(rule, kwargs.get('line'), message)
+            level = self.get_level_by_category(log.category)
+
+            if 'logs' not in self.log_classes[level]:
+                self.log_classes[level]['logs'] = []
+
+            self.log_classes[level]['logs'].append(log)
 
     def find_longest_category_name(self, level):
         length = 0
-        for log_class in self.log_classes:
-            if level == log_class.get('level'):
-                for category in log_class.get('categories'):
-                    if len(category) > length:
-                        length = len(category)
+        for category in self.log_classes[level].get('categories'):
+            if len(category) > length:
+                length = len(category)
 
         return length
 
     def find_highest_line_number(self):
         length = 0
-        for log in self.logs:
-            if len(str(log.line)) > length:
-                length = len(str(log.line))
+        for log_class, v in self.log_classes.items():
+            if 'logs' in v:
+                for log in v.get('logs'):
+                    if len(str(log.line)) > length:
+                        length = len(str(log.line))
 
         return length
 
     def display(self):
-        if App._args.get('json'):
-            if self.logs:
-                output = {log_class.get('level'): {c: {} for c in log_class.get('categories')} for log_class in self.log_classes}
+        logs = False
+        for log_class, v in self.log_classes.items():
+            if 'logs' in v:
+                logs = True
 
-                for log in self.logs:
-                    output[self.get_level_by_category(log.category)][log.category] = log.__dict__
+        if logs:
+            if App._args.get('json'):
+                print(json.dumps(logs))
 
-                print(json.dumps(output))
-        else:
-            if App._args.get('no_color'):
-                if self.logs:
-                    self.logs.sort(key=(lambda log: log.line))
-
-                    for log_class in self.log_classes:
-                        level      = log_class.get('level')
-                        categories = log_class.get('categories')
-
-                        for log in self.logs:
+            elif App._args.get('no_color'):
+                for log_class, v in self.log_classes.items():
+                    categories = v.get('categories')
+                    if 'logs' in v:
+                        for log in v.get('logs'):
                             if log.category in categories:
-                                log.displayLight(level)
-                else:
-                    print('{}'.format('Everything is good'))
+                                log.displayLight(log_class)
             else:
-                if self.logs:
-                    self.logs.sort(key=(lambda log: log.line))
+                for log_class, v in self.log_classes.items():
+                    color      = v.get('color').upper()
+                    categories = v.get('categories')
 
-                    for log_class in self.log_classes:
-                        level      = log_class.get('level')
-                        color      = log_class.get('color').upper()
-                        categories = log_class.get('categories')
-
-                        print('{}{} :{}'.format(COLORS.get(color), level.upper(), COLORS.get('ENDC')))
-                        for log in self.logs:
+                    if v.get('logs'):
+                        print('{}{} :{}'.format(COLORS.get(color), log_class.upper(), COLORS.get('ENDC')))
+                        for log in v.get('logs'):
                             if log.category in categories:
-                                category_right_padding = self.find_longest_category_name(level) - len(log.category)
+                                category_right_padding = self.find_longest_category_name(log_class) - len(log.category)
                                 line_number_right_padding = self.find_highest_line_number() - len(str(log.line))
                                 log.display(color, category_right_padding, line_number_right_padding)
                         print()
-                else:
-                    print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))
+        else:
+            print('{}{}{}\n'.format(COLORS.get('GREEN'), 'Everything is good', COLORS.get('ENDC')))
+            exit(0)
