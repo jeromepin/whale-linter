@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import urllib.request
 
 from whalelinter.app import App
 from whalelinter.dispatcher import Dispatcher
@@ -44,22 +45,39 @@ class Copy(Token):
         self.check_path()
 
     def check_path(self):
-        local_path = self.payload[0]
-        full_path = local_path
+        if len(self.payload) > 1:
+            self.payload = self.payload[:-1]
 
-        if not os.path.isabs(local_path):
-            directory = os.path.dirname(
-                os.path.abspath(App._args.get('DOCKERFILE')))
-            full_path = directory + '/' + local_path
+        for file_to_copy in self.payload:
+            if App._dockerfile.get('is_remote'):
+                url = App._dockerfile['url'].replace('Dockerfile', file_to_copy)
+                try:
+                    urllib.request.urlopen(urllib.request.Request(url, method="HEAD")).status
+                except Exception as e:
+                    if e.code == 404:
+                        App._collecter.throw(
+                            1004,
+                            line=self.line,
+                            keys={
+                                'file': file_to_copy,
+                                'directory': App._dockerfile['url'].replace('/Dockerfile', '')
+                            })
+            else:
+                print(file_to_copy)
+                full_path = file_to_copy
 
-        if not os.path.exists(full_path):
-            App._collecter.throw(
-                1004,
-                line=self.line,
-                keys={
-                    'file': local_path,
-                    'directory': directory
-                })
+                if not os.path.isabs(file_to_copy):
+                    directory = os.path.dirname(os.path.abspath(App._args.get('DOCKERFILE')))
+                    full_path = directory + '/' + file_to_copy
+
+                if not os.path.exists(full_path):
+                    App._collecter.throw(
+                        1004,
+                        line=self.line,
+                        keys={
+                            'file': file_to_copy,
+                            'directory': directory
+                        })
 
 
 @Dispatcher.register(token='expose')

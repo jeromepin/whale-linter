@@ -12,24 +12,33 @@ from whalelinter.utils import DockerfileCommand
 class Parser(DockerfileParser):
     def __init__(self, filename):
         DockerfileParser.__init__(self, cache_content=True)
-        self.dockerfile_path = filename
 
         if self.is_url(filename) is not None:
             response = urllib.request.urlopen(filename)
             if self.is_content_type_plain_text(response):
                 self.content = response.read().decode('utf-8')
+
+                App._dockerfile['is_remote'] = True
+                App._dockerfile['url']       = filename
             else:
-                print('ERROR: file format not supported\n')
+                print('ERROR: file format not supported. Plain text expected\n')
+                exit(-1)
 
         elif os.path.isfile(filename):
+            self.dockerfile_path = filename
             self.content = open(filename, encoding='utf-8').read()
+            App._dockerfile['is_remote'] = False
 
         elif self.is_github_repo(filename):
-            filename = 'https://raw.githubusercontent.com/' + filename + '/master/Dockerfile'
+            filename     = 'https://raw.githubusercontent.com/' + filename + '/master/Dockerfile'
             self.content = urllib.request.urlopen(filename).read().decode('utf-8')
+
+            App._dockerfile['is_remote'] = True
+            App._dockerfile['url']       = filename
 
         else:
             print('ERROR: file format not supported\n')
+            exit(-1)
 
         self.commands = self.dict_to_command_object(self.structure)
 

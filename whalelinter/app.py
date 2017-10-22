@@ -20,3 +20,4 @@ class App:
     _recommended_tokens = _config.get('recommended')
     _pointless_commands = _config.get('pointless_commands')
     _unique_tokens      = {x: 0 for x in _config.get('unique')}
+    _dockerfile         = {}
