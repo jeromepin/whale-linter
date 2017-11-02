@@ -1,8 +1,8 @@
 language: python
+
 python:
 - '3.4'
-script:
-- touch foo
+
 pypi:
   provider: pypi
   user: jeromepin
