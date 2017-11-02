@@ -3,6 +3,8 @@ language: python
 python:
 - '3.4'
 
+script: echo dummy
+
 pypi:
   provider: pypi
   user: jeromepin
