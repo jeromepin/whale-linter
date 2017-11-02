@@ -8,7 +8,7 @@ tests:
 build:
 	python3 setup.py install --user >> /dev/null
 
-publish: github pip docker-image
+publish: github pip
 
 github:
 	git tag --force $(VERSION) && \
