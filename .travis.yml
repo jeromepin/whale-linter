@@ -1,0 +1,13 @@
+language: python
+python:
+- '3.4'
+script:
+- touch foo
+pypi:
+  provider: pypi
+  user: jeromepin
+  password:
+    secure: Ts1Suq4UMfv1b28HFyT96eo/FbOpbH/1bs5BVO6jAoPaVBup+/wNOD3P4Wz2mGSj7kwxvzaNAaV1Mbu6uo2cpVJlNDmxPaVAAWDHkLLX5Mp00wgknSFEKl2JeRcqIsVwLuhMWC6q0CUpSRDijwHchAPr20Czf8Wc7FoWY2rBwbbQijQXCy40FZsk/GGDChzqSRGcx1VvIUf+MScwo/8b4dqX64fEKyOe8dATa75+bnNevqrX55tXxxbNtuQVmsRGmxNK4FgZSls2AUOJ330ApMN83+WcfJH8dlpfqNfQ/2hk7PMSF8YvwLVbJtGT3J8vyy62okAGpzwQalMOxW42w3PgN2fHPizuTth5lsIQolnFk1jFoxFyMV34KjNiIrvKvupFoapedKUeONxUJlzoP/3WXYshNwk7DzxD/UyGhF2sx03i2CHUSunffnTcaWcSi9ByxStnLPDmJ/Tmi/rzMrMEEOSWx5vEV/H1wX6IxOSpsJhIdBFSz2FU+OjjHbjXR7zjx4apTyDthWk/zywf6iAHiOvvvoyVJujxXtsmI3sAYnSF5Mey325NvVVAr8q8F9CPIp50nJBI2QGX9np/zxg+VqXwNRn38IUBL1U3qd15bE/Q47kLQNrb6s/OzygjatTY+nhaNxWVkD4o9bQfpopr3Cj5XYjMtestbhhhzjg=
+  on:
+    tags: true
+    branch: master
