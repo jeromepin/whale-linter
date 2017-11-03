@@ -97,7 +97,7 @@
         },
         {
             "id": "2002",
-            "message": "Use 'WORKDIR' to change directory",
+            "message": "Use 'WORKDIR' rather than 'cd' to change directory",
             "category": "BadPractice",
             "unique": "false"
         },
