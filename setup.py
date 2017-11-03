@@ -10,7 +10,7 @@ if sys.version_info < (3, 2):
 
 here = path.abspath(path.dirname(__file__))
 
-version = '0.0.7'
+version = '0.0.8'
 
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()

@@ -65,3 +65,4 @@ whalelinter/tests/
 docker-tests/
 dockerfiles/
 config_to_md.py
+.ropeproject/
