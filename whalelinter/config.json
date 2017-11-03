@@ -5,8 +5,7 @@
     "recommended": [],
     "unique": [
         "CMD",
-        "ENTRYPOINT",
-        "FROM"
+        "ENTRYPOINT"
     ],
     "all": [
         "ADD",
