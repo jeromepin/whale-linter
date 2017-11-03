@@ -66,7 +66,6 @@ class Copy(Token):
                                 'directory': App._dockerfile['url'].replace('/Dockerfile', '')
                             })
             else:
-                print(file_to_copy)
                 full_path = file_to_copy
 
                 if not os.path.isabs(file_to_copy):
@@ -156,7 +155,7 @@ class Maintainer(Token):
         Token.__init__(self, __class__, payload, line)
         App._collecter.throw(
             2013, line=self.line, keys={
-                'instruction': 'maintainer'
+                'instruction': 'MAINTAINER'
             })
 
 
