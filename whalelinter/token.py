@@ -42,7 +42,10 @@ class Add(Token):
 class Copy(Token):
     def __init__(self, payload, line):
         Token.__init__(self, __class__, payload, line)
-        self.check_path()
+
+        # Do not check path if the copy uses a previous stage
+        if not any(arg.startswith('--from=') for arg in self.payload):
+            self.check_path()
 
     def check_path(self):
         if len(self.payload) > 1:
