@@ -10,7 +10,7 @@ from whalelinter.commands.apt import Apt
 @Dispatcher.register(token='run', command='cd')
 class Cd(ShellCommand):
     def __init__(self, **kwargs):
-        App._collecter.throw(2002, kwargs.get('lineno'))
+        App._collecter.throw(2002, lineno=kwargs.get('lineno'))
 
 
 @Dispatcher.register(token='run', command='rm')
