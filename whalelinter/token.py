@@ -44,7 +44,7 @@ class Copy(Token):
         Token.__init__(self, __class__, payload, line)
 
         # Do not check path if the copy uses a previous stage
-        if not any(arg.startswith('--from=') for arg in self.payload):
+        if not any(arg.startswith('--from=') for arg in self.payload) and not App._dockerfile.get('is_remote'):
             self.check_path()
 
     def check_path(self):
@@ -52,34 +52,20 @@ class Copy(Token):
             self.payload = self.payload[:-1]
 
         for file_to_copy in self.payload:
-            if App._dockerfile.get('is_remote'):
-                url = App._dockerfile['url'].replace('Dockerfile', file_to_copy)
-                try:
-                    urllib.request.urlopen(urllib.request.Request(url, method="HEAD")).status
-                except Exception as e:
-                    if e.code == 404:
-                        App._collecter.throw(
-                            1004,
-                            line=self.line,
-                            keys={
-                                'file': file_to_copy,
-                                'directory': App._dockerfile['url'].replace('/Dockerfile', '')
-                            })
-            else:
-                full_path = file_to_copy
+            full_path = file_to_copy
 
-                if not os.path.isabs(file_to_copy):
-                    directory = os.path.dirname(os.path.abspath(App._args.get('DOCKERFILE')))
-                    full_path = directory + '/' + file_to_copy
+            if not os.path.isabs(file_to_copy):
+                directory = os.path.dirname(os.path.abspath(App._args.get('DOCKERFILE')))
+                full_path = directory + '/' + file_to_copy
 
-                if not os.path.exists(full_path):
-                    App._collecter.throw(
-                        1004,
-                        line=self.line,
-                        keys={
-                            'file': file_to_copy,
-                            'directory': directory
-                        })
+            if not os.path.exists(full_path):
+                App._collecter.throw(
+                    1004,
+                    line=self.line,
+                    keys={
+                        'file': file_to_copy,
+                        'directory': directory
+                    })
 
 
 @Dispatcher.register(token='expose')
