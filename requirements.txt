@@ -1,1 +1,1 @@
-dockerfile-parse
+dockerfile-parse==0.0.7
