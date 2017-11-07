@@ -1,2 +1,3 @@
 include README.md
 include whalelinter/config.json
+include requirements.txt
