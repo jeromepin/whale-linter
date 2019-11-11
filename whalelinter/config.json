@@ -43,7 +43,7 @@
     "log_classes": {
         "critical": {
             "color"      : "red",
-            "categories" : ["NotFound", "TooMuch", "TooLong", "BadValue"]
+            "categories" : ["NotFound", "TooMuch", "TooLong", "BadValue", "Malformed"]
         },
         "warning": {
             "color"      : "yellow",
@@ -83,6 +83,12 @@
             "id": "1004",
             "message": "'{file}' does not exists in '{directory}'",
             "category": "NotFound",
+            "unique": "false"
+        },
+        {
+            "id": "1005",
+            "message": "Extended {command} instruction should be in the format \"{command} <image> {specifier} <name>\"",
+            "category": "Malformed",
             "unique": "false"
         },
         {
