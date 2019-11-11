@@ -25,7 +25,8 @@
 		"SHELL",
         "USER",
         "VOLUME",
-        "WORKDIR"
+        "WORKDIR",
+        "STOPSIGNAL"
     ],
     "pointless_commands": [
         "free",
