@@ -6,7 +6,7 @@
     "unique": [
         "CMD",
         "ENTRYPOINT",
-		"STOPSIGNAL"
+        "STOPSIGNAL"
     ],
     "all": [
         "ADD",
@@ -17,12 +17,12 @@
         "ENV",
         "EXPOSE",
         "FROM",
-		"HEALTHCHECK",
+        "HEALTHCHECK",
         "LABEL",
         "MAINTAINER",
         "ONBUILD",
         "RUN",
-		"SHELL",
+        "SHELL",
         "USER",
         "VOLUME",
         "WORKDIR",
