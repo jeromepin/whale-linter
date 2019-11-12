@@ -5,7 +5,8 @@
     "recommended": [],
     "unique": [
         "CMD",
-        "ENTRYPOINT"
+        "ENTRYPOINT",
+        "STOPSIGNAL"
     ],
     "all": [
         "ADD",
@@ -16,15 +17,16 @@
         "ENV",
         "EXPOSE",
         "FROM",
-		"HEALTHCHECK",
+        "HEALTHCHECK",
         "LABEL",
         "MAINTAINER",
         "ONBUILD",
         "RUN",
-		"SHELL",
+        "SHELL",
         "USER",
         "VOLUME",
-        "WORKDIR"
+        "WORKDIR",
+        "STOPSIGNAL"
     ],
     "pointless_commands": [
         "free",
