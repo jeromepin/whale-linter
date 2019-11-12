@@ -194,12 +194,25 @@ class SourceImage(Token):
         self.has_latest_tag()
 
     def is_too_long(self):
-        if len(self.payload) > 1:
-            App._collecter.throw(
-                1002, line=self.line, keys={
-                    'command': self.payload
-                })
+        # payload could be 1 item FROM image:tag
+        # payload could be 3 items FROM image:tag AS thing
+
+        param_count = len(self.payload)
+
+        if param_count not in [1, 3]:
+            App._collecter.throw(1002, 
+                                 line=self.line, 
+                                 keys={"command": self.payload})
             return True
+
+        # additional checks
+        if param_count == 3:
+            if self.payload[1].upper() != "AS":
+                App._collecter.throw(1005, 
+                                     line=self.line, 
+                                     keys={"command": "FROM",
+                                           "specifier": "AS"})
+                return True
         return False
 
     def has_no_tag(self):
